@@ -132,7 +132,7 @@ Deuda conocida: AGP 8.5.2 sólo declara compatibilidad probada hasta SDK 34. Se 
 - `e252f88` — validación auditiva Samsung registrada.
 - `25c9b03` — cinco conceptos estéreo y galería de selección.
 
-El commit que contiene este archivo también debe incluir controles externos, selección Thunder Deck y evidencia Huawei; consultar `git log -1` después de actualizar el clon.
+- `bdc4739` — controles externos reales, selección Thunder Deck, evidencia Huawei y este handoff.
 
 ## Reglas de trabajo
 
@@ -156,4 +156,4 @@ Reconstruir `activity_main.xml` y los componentes visuales como **Thunder Deck**
 6. EQ global/local real; habilitar el botón sólo después de validar procesamiento.
 7. Capturas y QA en Huawei; repetir Samsung cuando esté disponible.
 
-Antes de comenzar, comprobar que el checkout nuevo contiene el commit posterior a `25c9b03` y que `git status` está limpio.
+Antes de comenzar, comprobar que el checkout nuevo contiene al menos `bdc4739` y que `git status` está limpio.
