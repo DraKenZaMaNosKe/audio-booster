@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AudioBooster · Selección de estéreo</title>
+  <style>
+    :root { color-scheme: dark; --cyan:#26dcff; --violet:#985dff; --ink:#070611; --panel:#141129; --muted:#aaa5c5; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:radial-gradient(circle at 50% -10%,#22164b 0,#0b0918 38%,#05040b 100%); color:#f7f7ff; font:16px/1.5 Inter,Segoe UI,sans-serif; }
+    header { padding:64px 24px 34px; text-align:center; }
+    .eyebrow { color:var(--cyan); font-weight:800; letter-spacing:.18em; font-size:.78rem; }
+    h1 { margin:.35rem 0; font-size:clamp(2rem,6vw,4.7rem); line-height:1; }
+    header p { max-width:760px; margin:18px auto 0; color:var(--muted); }
+    .grid { width:min(1480px,94vw); margin:auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; padding-bottom:60px; }
+    .card { position:relative; overflow:hidden; border:1px solid #39305e; border-radius:28px; background:linear-gradient(145deg,#18142f,#0c0a18); box-shadow:0 18px 55px #0008; transition:.25s ease; }
+    .card:hover { transform:translateY(-6px); border-color:#5ddfff99; }
+    .card.selected { border:2px solid var(--cyan); box-shadow:0 0 0 5px #26dcff22,0 20px 65px #7c48ff55; }
+    .visual { position:relative; aspect-ratio:9/16; background:#000; overflow:hidden; cursor:zoom-in; }
+    .visual img { width:100%; height:100%; display:block; object-fit:cover; transition:transform .4s ease; }
+    .visual:hover img { transform:scale(1.025); }
+    .number { position:absolute; top:16px; left:16px; width:42px; height:42px; display:grid; place-items:center; border-radius:50%; background:#080714cc; border:1px solid #ffffff44; font-weight:900; backdrop-filter:blur(10px); }
+    .body { padding:22px; }
+    h2 { margin:0 0 8px; font-size:1.35rem; }
+    .body p { min-height:72px; margin:0 0 18px; color:var(--muted); }
+    button { width:100%; border:0; border-radius:16px; padding:14px 16px; cursor:pointer; color:white; font-weight:850; font-size:1rem; background:linear-gradient(100deg,#365aff,#9459ff); }
+    :focus-visible { outline:3px solid var(--cyan); outline-offset:4px; }
+    .selected button { background:linear-gradient(100deg,#19bddd,#655cff); }
+    #selection { position:sticky; bottom:18px; z-index:5; width:min(720px,92vw); margin:0 auto 30px; padding:16px 22px; border:1px solid #53dfff66; border-radius:20px; background:#0c0929e8; backdrop-filter:blur(16px); box-shadow:0 14px 40px #000a; text-align:center; color:#d9d6ee; }
+    #selection strong { color:var(--cyan); }
+    dialog { border:0; padding:0; max-width:min(720px,95vw); background:transparent; }
+    dialog::backdrop { background:#030209e8; backdrop-filter:blur(8px); }
+    dialog img { display:block; width:100%; max-height:88vh; object-fit:contain; border-radius:22px; }
+    .close { position:absolute; top:12px; right:12px; width:46px; height:46px; padding:0; border-radius:50%; background:#090717dd; font-size:1.5rem; }
+    footer { text-align:center; color:#77718f; padding:0 20px 80px; }
+    @media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition:none!important; animation:none!important; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">AUDIOBOOSTER · BY PIXORA IA</div>
+    <h1>Elige nuestro estéreo</h1>
+    <p>El estéreo será la interfaz: pantalla para canción y espectro, perilla para 0–200%, botones físicos para reproducción y controles integrados de ecualización.</p>
+  </header>
+
+  <main class="grid" id="gallery">
+    <article class="card" data-id="01 — Zen Neon">
+      <div class="visual" role="button" tabindex="0" aria-label="Ampliar diseño 01 Zen Neon"><img loading="lazy" decoding="async" src="stereo_concepts/concept-01-zen-neon.png" alt="Estéreo Zen Neon sobre mueble nogal"><span class="number">01</span></div>
+      <div class="body"><h2>Zen Neon</h2><p>Elegante, metálico y equilibrado. Muy clara jerarquía de pantalla, perilla y controles.</p><button aria-pressed="false">Elegir diseño 01</button></div>
+    </article>
+    <article class="card" data-id="02 — City Pop">
+      <div class="visual" role="button" tabindex="0" aria-label="Ampliar diseño 02 City Pop"><img loading="lazy" decoding="async" src="stereo_concepts/concept-02-city-pop.png" alt="Estéreo City Pop en sala luminosa"><span class="number">02</span></div>
+      <div class="body"><h2>City Pop</h2><p>Luminoso y amigable; combina nostalgia retro con una casa moderna y cálida.</p><button aria-pressed="false">Elegir diseño 02</button></div>
+    </article>
+    <article class="card" data-id="03 — Midnight Hi-Fi">
+      <div class="visual" role="button" tabindex="0" aria-label="Ampliar diseño 03 Midnight Hi-Fi"><img loading="lazy" decoding="async" src="stereo_concepts/concept-03-midnight.png" alt="Estéreo negro Midnight en loft nocturno"><span class="number">03</span></div>
+      <div class="body"><h2>Midnight Hi-Fi</h2><p>Premium y musical. Los ecualizadores físicos y la perilla térmica dominan la experiencia.</p><button aria-pressed="false">Elegir diseño 03</button></div>
+    </article>
+    <article class="card" data-id="04 — Sakura Beats">
+      <div class="visual" role="button" tabindex="0" aria-label="Ampliar diseño 04 Sakura Beats"><img loading="lazy" decoding="async" src="stereo_concepts/concept-04-sakura.png" alt="Estéreo Sakura en habitación anime"><span class="number">04</span></div>
+      <div class="body"><h2>Sakura Beats</h2><p>Suave, expresivo y accesible; una identidad anime evidente sin perder realismo.</p><button aria-pressed="false">Elegir diseño 04</button></div>
+    </article>
+    <article class="card" data-id="05 — Thunder Deck">
+      <div class="visual" role="button" tabindex="0" aria-label="Ampliar diseño 05 Thunder Deck"><img loading="lazy" decoding="async" src="stereo_concepts/concept-05-thunder.png" alt="Estéreo industrial Thunder Deck"><span class="number">05</span></div>
+      <div class="body"><h2>Thunder Deck</h2><p>Potente e industrial; comunica mejor la idea de boost, protección y alto desempeño.</p><button aria-pressed="false">Elegir diseño 05</button></div>
+    </article>
+  </main>
+
+  <div id="selection" role="status" aria-live="polite">Todavía no has elegido. Pulsa <strong>Elegir diseño</strong> en tu favorito.</div>
+  <footer>Las imágenes son conceptos originales para revisión. La versión elegida se reconstruirá como controles Android reales y adaptativos.</footer>
+  <dialog id="preview" aria-label="Vista ampliada del concepto"><button class="close" aria-label="Cerrar vista ampliada">×</button><img alt=""></dialog>
+  <script>
+    const cards=[...document.querySelectorAll('.card')], status=document.querySelector('#selection');
+    function select(card){
+      cards.forEach(c=>c.classList.toggle('selected',c===card));
+      try { localStorage.setItem('audioBoosterStereoChoice',card.dataset.id); } catch (_) {}
+      status.innerHTML=`Selección guardada: <strong>${card.dataset.id}</strong>`;
+      card.querySelector('button').textContent='✓ Diseño seleccionado';
+      cards.forEach(c=>c.querySelector('button').setAttribute('aria-pressed',String(c===card)));
+      cards.filter(c=>c!==card).forEach(c=>c.querySelector('button').textContent=`Elegir diseño ${c.querySelector('.number').textContent}`);
+    }
+    function preview(card){ const d=document.querySelector('#preview'), img=d.querySelector('img'); img.src=card.querySelector('img').src; img.alt=`Vista ampliada: ${card.dataset.id}`; d.showModal(); }
+    cards.forEach(card=>{
+      card.querySelector('button').addEventListener('click',()=>select(card));
+      const visual=card.querySelector('.visual');
+      visual.addEventListener('click',()=>preview(card));
+      visual.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); preview(card); } });
+    });
+    document.querySelector('#preview .close').addEventListener('click',()=>document.querySelector('#preview').close());
+    let saved=null; try { saved=localStorage.getItem('audioBoosterStereoChoice'); } catch (_) {}
+    if(saved){ const card=cards.find(c=>c.dataset.id===saved); if(card) select(card); }
+  </script>
+</body>
+</html>

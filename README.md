@@ -23,5 +23,6 @@ Proyecto clean-room de Orbix para controlar el volumen multimedia y estudiar una
 - [Registro de pruebas](04_TEST_LOG.md)
 - [Requisitos de producto](docs/PRODUCT_REQUIREMENTS.md)
 - [Plan de monetización](docs/MONETIZATION_PLAN.md)
+- [Galería de cinco interfaces estéreo](docs/design_review/stereo_concepts.html)
 
 La fuente canónica es GitHub. La carpeta de Drive `pixoraIA_admin/claude_compartido/audio_booster` es un espejo de coordinación.
