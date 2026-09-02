@@ -22,7 +22,10 @@ Crear un amplificador de audio para Android con identidad propia de Orbix, capaz
 - Jerarquía inspirada en patrones comunes del mercado: encabezado, pestañas Volumen/Ecualizador, dial central, control del sistema, presets y tarjeta de reproducción.
 - Diseño, ilustración, iconografía, textos, marca y código originales de Orbix. No copiar recursos, configuración numérica privada ni identidad visual de EZ Booster.
 - Tema oscuro azul noche con acentos cian/violeta y altavoces abstractos originales.
+- Marca visible “AudioBooster” con firma “by Pixora IA”, splash e icono propios.
 - Control central accesible e interactivo de 0 a 200%, además de presets 0, 30, 60, 100, 125, 150, 175 y 200%.
+- La perilla comunica intensidad mediante un arco azul frío, violeta, naranja y rojo caliente, con retroalimentación luminosa breve.
+- Menú desplegable personalizado para saltar entre potencia, reproducción externa y reproductor local.
 - El estado debe diferenciar claramente volumen normal, modo global activo, modo no compatible y respaldo local.
 
 ## Privacidad y permisos

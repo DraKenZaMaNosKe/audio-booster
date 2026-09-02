@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainScroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/orbix_audio_background"
@@ -20,11 +21,31 @@
             android:textStyle="bold" />
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/brand_signature"
+            android:textColor="@color/accent_cyan"
+            android:textSize="13sp" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/sectionMenu"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_section_menu"
+            android:contentDescription="@string/section_menu_description"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:popupBackground="@color/surface_dark" />
+
+        <TextView
             android:id="@+id/tvGlobalState"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
+            android:background="@drawable/bg_status_chip"
+            android:padding="10dp"
             android:text="@string/global_state_off"
             android:textColor="@color/accent_cyan"
             android:textSize="19sp"
@@ -100,6 +121,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/sectionExternal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -158,6 +180,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/sectionLocal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"

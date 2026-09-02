@@ -35,6 +35,9 @@ class GlobalBoostService : Service() {
                 sendBroadcast(Intent(ACTION_STATE).setPackage(packageName)
                     .putExtra(EXTRA_AVAILABLE, true)
                     .putExtra(EXTRA_GAIN_DB, gainDb))
+                getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit()
+                    .putInt(PREF_GLOBAL_PERCENT, GainMath.relativePercent(gainDb))
+                    .apply()
             }
         }
         return START_NOT_STICKY
@@ -42,6 +45,7 @@ class GlobalBoostService : Service() {
 
     override fun onDestroy() {
         controller.release()
+        getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().remove(PREF_GLOBAL_PERCENT).apply()
         super.onDestroy()
     }
 
@@ -69,6 +73,8 @@ class GlobalBoostService : Service() {
         const val ACTION_STATE = "com.pixora.volumemax.GLOBAL_GAIN_STATE"
         const val EXTRA_GAIN_DB = "gain_db"
         const val EXTRA_AVAILABLE = "available"
+        const val PREFS_NAME = "audio_booster_state"
+        const val PREF_GLOBAL_PERCENT = "global_percent"
         private const val CHANNEL_ID = "global_boost"
         private const val NOTIFICATION_ID = 4101
     }

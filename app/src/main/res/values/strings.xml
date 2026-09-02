@@ -1,5 +1,12 @@
 <resources>
-    <string name="app_name">Orbix Audio Booster</string>
+    <string name="app_name">AudioBooster</string>
+    <string name="brand_signature">BY PIXORA IA</string>
+    <string name="section_menu_description">Menú de secciones</string>
+    <string-array name="section_menu_items">
+        <item>Volumen y potencia</item>
+        <item>Reproducción externa</item>
+        <item>Reproductor local</item>
+    </string-array>
     <string name="honest_scope" formatted="false">Hasta 100% controla el volumen normal. Por encima de 100% activa una ganancia global experimental, con limitador, sólo en dispositivos compatibles.</string>
     <string name="volume_title">Volumen multimedia del sistema</string>
     <string name="current_volume_format">Volumen actual: %1$d%%</string>

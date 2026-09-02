@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.media.AudioManager
 import android.net.Uri
 import android.os.Bundle
@@ -13,15 +15,19 @@ import android.provider.OpenableColumns
 import android.provider.Settings
 import android.util.Log
 import android.widget.Button
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.SeekBar
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
@@ -29,6 +35,7 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 @OptIn(UnstableApi::class)
 class MainActivity : AppCompatActivity() {
@@ -56,6 +63,11 @@ class MainActivity : AppCompatActivity() {
                 globalPercent = 0
                 refreshGlobalUi()
                 Toast.makeText(this@MainActivity, R.string.global_boost_unavailable, Toast.LENGTH_LONG).show()
+            } else if (intent?.getBooleanExtra(GlobalBoostService.EXTRA_AVAILABLE, false) == true) {
+                globalPercent = GainMath.relativePercent(
+                    intent.getFloatExtra(GlobalBoostService.EXTRA_GAIN_DB, 0f)
+                )
+                refreshGlobalUi()
             }
         }
     }
@@ -75,18 +87,54 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, true)
         setContentView(R.layout.activity_main)
 
         volumeController = VolumeController(this)
         bindViews()
+        setupSectionMenu()
         createPlayer()
         setupVolumeControls()
         setupGlobalControls()
         setupPlayerControls()
+        globalPercent = getSharedPreferences(GlobalBoostService.PREFS_NAME, MODE_PRIVATE)
+            .getInt(GlobalBoostService.PREF_GLOBAL_PERCENT, 0)
         refreshVolumeUi()
         refreshGlobalUi()
         refreshPlayerUi()
+    }
+
+    private fun setupSectionMenu() {
+        val menu = findViewById<Spinner>(R.id.sectionMenu)
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.section_menu_items,
+            R.layout.spinner_selected_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+            menu.adapter = adapter
+        }
+        var initialSelection = true
+        menu.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
+                if (initialSelection) {
+                    initialSelection = false
+                    return
+                }
+                val target = when (position) {
+                    1 -> findViewById<android.view.View>(R.id.sectionExternal)
+                    2 -> findViewById<android.view.View>(R.id.sectionLocal)
+                    else -> tvGlobalState
+                }
+                findViewById<android.widget.ScrollView>(R.id.mainScroll).post {
+                    findViewById<android.widget.ScrollView>(R.id.mainScroll).smoothScrollTo(0, target.top)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+        }
     }
 
     private fun bindViews() {
@@ -124,13 +172,22 @@ class MainActivity : AppCompatActivity() {
             R.id.btnGlobalMax to 200
         )
         presets.forEach { (buttonId, percent) ->
-            findViewById<Button>(buttonId).setOnClickListener { applyGlobalPreset(percent) }
+            findViewById<Button>(buttonId).apply {
+                backgroundTintList = ColorStateList.valueOf(presetColor(percent))
+                setOnClickListener { applyGlobalPreset(percent) }
+            }
         }
+    }
+
+    private fun presetColor(percent: Int): Int {
+        if (percent == 0) return Color.rgb(53, 48, 88)
+        val heat = (percent / 200f).coerceIn(0f, 1f)
+        return Color.HSVToColor(floatArrayOf(205f * (1f - heat), .72f, .86f))
     }
 
     private fun applyGlobalPreset(percent: Int) {
         if (percent > 100 && !globalWarningAccepted) {
-            AlertDialog.Builder(this)
+            MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.warning_title)
                 .setMessage(R.string.global_warning_body)
                 .setPositiveButton(R.string.continue_label) { _, _ ->
@@ -233,7 +290,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnGainOff).setOnClickListener { applyGain(0) }
         findViewById<Button>(R.id.btnGain3).setOnClickListener { applyGain(3) }
         findViewById<Button>(R.id.btnGain6).setOnClickListener {
-            AlertDialog.Builder(this)
+            MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.warning_title)
                 .setMessage(R.string.warning_body)
                 .setPositiveButton(R.string.continue_label) { _, _ -> applyGain(6) }

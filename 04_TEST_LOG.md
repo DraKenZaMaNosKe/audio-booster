@@ -56,3 +56,13 @@ Pendiente:
 - Validación final de esta iteración: `testDebugUnitTest assembleDebug` terminó en **BUILD SUCCESSFUL** (40 tareas); APK reinstalada y actividad principal reanudada sin excepción `AndroidRuntime` observada.
 - Pendiente: comparación audible Spotify 100/125/150/200%, validación de metadatos tras autorizar acceso y medición de clipping. La presencia de la cadena no sustituye estas pruebas.
 - Revisión Orbix Guardian: build/tests e instalación aprobados; `lintDebug` volvió a quedar detenido en `lintAnalyzeDebug` y se canceló tras ~90 s. Se resolvieron antes del commit sus hallazgos de ciclo de vida (`START_NOT_STICKY`), advertencia global, permiso de notificaciones bajo demanda y visualización de la app de origen.
+
+## 2026-09-01 — Identidad y pulido visual
+
+- Nombre visible actualizado a `AudioBooster` con firma `BY PIXORA IA`.
+- Splash nativo e icono vectorial original integrados.
+- Menú desplegable personalizado para navegación rápida entre secciones.
+- Perilla mejorada con progresión térmica azul/violeta/naranja/rojo y pulso luminoso al confirmar.
+- Botones y etiquetas unificados con formas, colores y áreas táctiles Material personalizadas.
+- Se corrigió el scroll automático inicial que ocultaba la cabecera y el contenido bajo la barra de estado.
+- `testDebugUnitTest assembleDebug`: **BUILD SUCCESSFUL**; APK instalada y abierta en Samsung sin excepción `AndroidRuntime` observada.

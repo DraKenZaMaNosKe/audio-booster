@@ -44,6 +44,10 @@
 - [ ] Icono, screenshots, feature graphic y textos de tienda.
 - [ ] Analytics y crash reporting mínimos, con consentimiento cuando corresponda.
 - [ ] AAB release, firma, pruebas internas/cerradas y checklist de lanzamiento.
+- [x] Diseñar estrategia de monetización separada del núcleo de audio (`MONETIZATION_PLAN.md`).
+- [ ] Integrar UMP/consentimiento con IDs de prueba y kill switch.
+- [ ] Integrar anuncios adaptables en superficies estáticas; no interrumpir controles ni reproducción.
+- [ ] Añadir Premium con Play Billing y verificación confiable de derechos.
 
 ## Gate de avance
 

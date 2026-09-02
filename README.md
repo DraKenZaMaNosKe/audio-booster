@@ -22,5 +22,6 @@ Proyecto clean-room de Orbix para controlar el volumen multimedia y estudiar una
 - [Prompt maestro reutilizable para Kimi](docs/PROMPT_MAESTRO_APP_ANDROID.md)
 - [Registro de pruebas](04_TEST_LOG.md)
 - [Requisitos de producto](docs/PRODUCT_REQUIREMENTS.md)
+- [Plan de monetización](docs/MONETIZATION_PLAN.md)
 
 La fuente canónica es GitHub. La carpeta de Drive `pixoraIA_admin/claude_compartido/audio_booster` es un espejo de coordinación.

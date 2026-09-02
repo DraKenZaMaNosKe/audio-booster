@@ -5,4 +5,7 @@
     <color name="accent_cyan">#22D3EE</color>
     <color name="text_primary">#F2F3F7</color>
     <color name="text_muted">#A8A2C7</color>
+    <color name="surface_glass">#CC181332</color>
+    <color name="splash_background">#090718</color>
+    <color name="launcher_background">#090718</color>
 </resources>

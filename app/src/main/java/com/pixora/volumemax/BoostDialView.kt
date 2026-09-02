@@ -5,7 +5,10 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.graphics.SweepGradient
+import android.graphics.Matrix
 import android.util.AttributeSet
+import android.animation.ValueAnimator
 import android.view.MotionEvent
 import android.view.View
 import kotlin.math.atan2
@@ -24,6 +27,7 @@ class BoostDialView @JvmOverloads constructor(
         }
 
     var onPercentChanged: ((Int) -> Unit)? = null
+    private var pulse = 0f
 
     private val trackPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.argb(100, 113, 101, 170)
@@ -68,6 +72,23 @@ class BoostDialView @JvmOverloads constructor(
         progressPaint.strokeWidth = stroke
         val oval = RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius)
 
+        val heat = percent / 200f
+        val heatColor = Color.HSVToColor(floatArrayOf(195f * (1f - heat), 0.9f, 1f))
+        knobPaint.setShadowLayer(22f + pulse * 18f, 0f, 5f, heatColor)
+        progressPaint.shader = SweepGradient(
+            centerX,
+            centerY,
+            intArrayOf(
+                Color.rgb(45, 226, 255),
+                Color.rgb(65, 120, 255),
+                Color.rgb(157, 79, 255),
+                Color.rgb(255, 142, 45),
+                Color.rgb(255, 48, 68),
+                Color.rgb(255, 48, 68)
+            ),
+            floatArrayOf(0f, .22f, .40f, .59f, .75f, 1f)
+        ).apply { setLocalMatrix(Matrix().apply { setRotate(135f, centerX, centerY) }) }
+
         canvas.drawCircle(centerX, centerY, radius * 0.78f, knobPaint)
         canvas.drawArc(oval, 135f, 270f, false, trackPaint)
         canvas.drawArc(oval, 135f, 270f * percent / 200f, false, progressPaint)
@@ -96,8 +117,20 @@ class BoostDialView @JvmOverloads constructor(
         return true
     }
 
+    private fun pulseFeedback() {
+        ValueAnimator.ofFloat(0f, 1f, 0f).apply {
+            duration = 420
+            addUpdateListener {
+                pulse = it.animatedValue as Float
+                invalidate()
+            }
+            start()
+        }
+    }
+
     override fun performClick(): Boolean {
         super.performClick()
+        pulseFeedback()
         return true
     }
 }
