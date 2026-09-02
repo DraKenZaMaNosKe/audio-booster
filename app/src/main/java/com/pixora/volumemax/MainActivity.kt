@@ -1,32 +1,78 @@
 package com.pixora.volumemax
 
 import android.Manifest
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.media.AudioManager
-import android.os.Build
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
+import android.provider.Settings
+import android.util.Log
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.material.switchmaterial.SwitchMaterial
+import androidx.media3.common.AudioAttributes
+import androidx.media3.common.C
+import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
 
+@OptIn(UnstableApi::class)
 class MainActivity : AppCompatActivity() {
-
     private lateinit var volumeController: VolumeController
-    private lateinit var tvVolumeValue: TextView
-    private lateinit var tvBoostValue: TextView
-    private lateinit var seekVolume: SeekBar
-    private lateinit var seekBoost: SeekBar
-    private lateinit var switchLimiter: SwitchMaterial
-    private lateinit var btnForegroundToggle: Button
+    private lateinit var player: ExoPlayer
+    private val gainController = SessionGainController()
 
-    private var boostPercent: Int = 0
+    private lateinit var tvVolumeValue: TextView
+    private lateinit var tvTrack: TextView
+    private lateinit var tvPlayerState: TextView
+    private lateinit var tvGlobalState: TextView
+    private lateinit var tvExternalTrack: TextView
+    private lateinit var seekVolume: SeekBar
+    private lateinit var btnPlayPause: Button
+    private lateinit var boostDial: BoostDialView
+
+    private var selectedUri: Uri? = null
+    private var gainDb = 0
+    private var globalPercent = 0
+    private var globalWarningAccepted = false
+
+    private val globalStateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (intent?.getBooleanExtra(GlobalBoostService.EXTRA_AVAILABLE, false) == false) {
+                globalPercent = 0
+                refreshGlobalUi()
+                Toast.makeText(this@MainActivity, R.string.global_boost_unavailable, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private val mediaReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val title = intent?.getStringExtra(MediaObserverService.EXTRA_TITLE).orEmpty()
+            val artist = intent?.getStringExtra(MediaObserverService.EXTRA_ARTIST).orEmpty()
+            val source = intent?.getStringExtra(MediaObserverService.EXTRA_SOURCE).orEmpty()
+            tvExternalTrack.text = if (title.isBlank()) getString(R.string.media_access_needed)
+            else getString(R.string.external_track_format, title, artist, source)
+        }
+    }
+
+    private val openAudio = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        uri?.let(::loadAudio)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,180 +80,247 @@ class MainActivity : AppCompatActivity() {
 
         volumeController = VolumeController(this)
         bindViews()
-        requestNotificationPermissionIfNeeded()
+        createPlayer()
         setupVolumeControls()
-        setupBoostControls()
-        setupForegroundToggle()
-        refreshUi()
+        setupGlobalControls()
+        setupPlayerControls()
+        refreshVolumeUi()
+        refreshGlobalUi()
+        refreshPlayerUi()
     }
 
     private fun bindViews() {
         tvVolumeValue = findViewById(R.id.tvVolumeValue)
-        tvBoostValue = findViewById(R.id.tvBoostValue)
+        tvTrack = findViewById(R.id.tvTrack)
+        tvPlayerState = findViewById(R.id.tvPlayerState)
+        tvGlobalState = findViewById(R.id.tvGlobalState)
+        tvExternalTrack = findViewById(R.id.tvExternalTrack)
         seekVolume = findViewById(R.id.seekVolume)
-        seekBoost = findViewById(R.id.seekBoost)
-        switchLimiter = findViewById(R.id.switchLimiter)
-        btnForegroundToggle = findViewById(R.id.btnForegroundToggle)
+        btnPlayPause = findViewById(R.id.btnPlayPause)
+        boostDial = findViewById(R.id.boostDial)
+        boostDial.onPercentChanged = ::applyGlobalPreset
+        findViewById<Button>(R.id.btnMediaAccess).setOnClickListener {
+            startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
+        }
     }
 
     private fun requestNotificationPermissionIfNeeded() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val granted = ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED
+        if (android.os.Build.VERSION.SDK_INT >= 33 &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 201)
+        }
+    }
 
-            if (!granted) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    REQ_NOTIFICATIONS
-                )
-            }
+    private fun setupGlobalControls() {
+        val presets = mapOf(
+            R.id.btnGlobalOff to 0,
+            R.id.btnGlobal30 to 30,
+            R.id.btnGlobal60 to 60,
+            R.id.btnGlobal100 to 100,
+            R.id.btnGlobal125 to 125,
+            R.id.btnGlobal150 to 150,
+            R.id.btnGlobal175 to 175,
+            R.id.btnGlobalMax to 200
+        )
+        presets.forEach { (buttonId, percent) ->
+            findViewById<Button>(buttonId).setOnClickListener { applyGlobalPreset(percent) }
+        }
+    }
+
+    private fun applyGlobalPreset(percent: Int) {
+        if (percent > 100 && !globalWarningAccepted) {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.warning_title)
+                .setMessage(R.string.global_warning_body)
+                .setPositiveButton(R.string.continue_label) { _, _ ->
+                    globalWarningAccepted = true
+                    applyGlobalPreset(percent)
+                }
+                .setNegativeButton(R.string.cancel_label) { _, _ -> boostDial.percent = globalPercent }
+                .show()
+            return
+        }
+        if (percent <= 100) {
+            stopService(Intent(this, GlobalBoostService::class.java).setAction(GlobalBoostService.ACTION_STOP))
+            volumeController.setVolumePercent(percent, showUi = true)
+        } else {
+            requestNotificationPermissionIfNeeded()
+            volumeController.setVolumePercent(100, showUi = true)
+            val gainDb = (20.0 * kotlin.math.log10(percent / 100.0)).toFloat()
+                .coerceAtMost(GlobalAudioBoostController.MAX_GAIN_DB)
+            val serviceIntent = Intent(this, GlobalBoostService::class.java)
+                .setAction(GlobalBoostService.ACTION_SET_GAIN)
+                .putExtra(GlobalBoostService.EXTRA_GAIN_DB, gainDb)
+            ContextCompat.startForegroundService(this, serviceIntent)
+        }
+        globalPercent = percent
+        refreshVolumeUi()
+        refreshGlobalUi()
+    }
+
+    private fun refreshGlobalUi() {
+        boostDial.percent = globalPercent
+        tvGlobalState.text = if (globalPercent > 100) {
+            getString(R.string.global_state_format, globalPercent)
+        } else {
+            getString(R.string.global_state_off)
+        }
+    }
+
+    private fun createPlayer() {
+        val audioManager = getSystemService(AudioManager::class.java)
+        val sessionId = audioManager.generateAudioSessionId()
+        player = ExoPlayer.Builder(this).build().apply {
+            setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setUsage(C.USAGE_MEDIA)
+                    .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
+                    .build(),
+                true
+            )
+            if (sessionId != AudioManager.ERROR) setAudioSessionId(sessionId)
+            addListener(object : Player.Listener {
+                override fun onAudioSessionIdChanged(audioSessionId: Int) {
+                    val attached = gainController.attach(audioSessionId)
+                    if (attached && gainDb > 0) gainController.setGainDb(gainDb)
+                    Log.i(TAG, "Audio session changed: id=$audioSessionId, gainAttached=$attached")
+                }
+                override fun onIsPlayingChanged(isPlaying: Boolean) = refreshPlayerUi()
+                override fun onPlaybackStateChanged(playbackState: Int) = refreshPlayerUi()
+                override fun onPlayerError(error: PlaybackException) {
+                    Toast.makeText(this@MainActivity, R.string.playback_error, Toast.LENGTH_LONG).show()
+                    refreshPlayerUi()
+                }
+            })
+        }
+
+        if (player.audioSessionId > 0 && !gainController.attach(player.audioSessionId)) {
+            Toast.makeText(this, R.string.gain_unavailable, Toast.LENGTH_LONG).show()
         }
     }
 
     private fun setupVolumeControls() {
-        seekVolume.max = volumeController.maxVolume
-        seekVolume.progress = volumeController.currentVolume
-
         seekVolume.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) {
                     volumeController.setVolumeIndex(progress, showUi = true)
-                    refreshUi()
+                    refreshVolumeUi()
                 }
             }
-
             override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
             override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
         })
 
         findViewById<Button>(R.id.btnVolume75).setOnClickListener {
             volumeController.setVolumePercent(75, showUi = true)
-            refreshUi()
+            refreshVolumeUi()
         }
-
         findViewById<Button>(R.id.btnVolume100).setOnClickListener {
             volumeController.setVolumePercent(100, showUi = true)
-            refreshUi()
+            refreshVolumeUi()
         }
     }
 
-    private fun setupBoostControls() {
-        seekBoost.max = 100
-        seekBoost.progress = boostPercent
-
-        seekBoost.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser) {
-                    updateBoost(progress, confirmHigh = true)
-                }
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
-            override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
-        })
-
-        findViewById<Button>(R.id.btnBoostOff).setOnClickListener {
-            updateBoost(0, confirmHigh = false)
+    private fun setupPlayerControls() {
+        findViewById<Button>(R.id.btnSelectAudio).setOnClickListener {
+            openAudio.launch(arrayOf("audio/*"))
         }
-
-        findViewById<Button>(R.id.btnBoostLow).setOnClickListener {
-            updateBoost(35, confirmHigh = false)
+        btnPlayPause.setOnClickListener {
+            if (selectedUri == null) openAudio.launch(arrayOf("audio/*"))
+            else if (player.isPlaying) player.pause() else player.play()
         }
-
-        findViewById<Button>(R.id.btnBoostHigh).setOnClickListener {
-            updateBoost(85, confirmHigh = true)
+        findViewById<Button>(R.id.btnGainOff).setOnClickListener { applyGain(0) }
+        findViewById<Button>(R.id.btnGain3).setOnClickListener { applyGain(3) }
+        findViewById<Button>(R.id.btnGain6).setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.warning_title)
+                .setMessage(R.string.warning_body)
+                .setPositiveButton(R.string.continue_label) { _, _ -> applyGain(6) }
+                .setNegativeButton(R.string.cancel_label, null)
+                .show()
         }
     }
 
-    private fun setupForegroundToggle() {
-        btnForegroundToggle.setOnClickListener {
-            val stage = boostStage()
-            if (stage == BoostStage.OFF) {
-                stopBoostService()
-                Toast.makeText(this, "Boost desactivado", Toast.LENGTH_SHORT).show()
-            } else {
-                startBoostService()
-            }
+    private fun loadAudio(uri: Uri) {
+        runCatching {
+            contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
+        selectedUri = uri
+        player.setMediaItem(MediaItem.fromUri(uri))
+        player.prepare()
+        tvTrack.text = displayName(uri)
+        refreshPlayerUi()
     }
 
-    private fun updateBoost(progress: Int, confirmHigh: Boolean) {
-        val stage = BoostStage.fromProgress(progress)
-        if (stage == BoostStage.HIGH && confirmHigh) {
-            showHighBoostWarning {
-                applyBoost(stage, progress)
-            }
+    private fun displayName(uri: Uri): String {
+        contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { cursor ->
+            if (cursor.moveToFirst()) return cursor.getString(0)
+        }
+        return getString(R.string.selected_audio)
+    }
+
+    private fun applyGain(db: Int) {
+        if (gainController.setGainDb(db)) {
+            gainDb = db
+            Log.i(TAG, "Local session gain applied: ${db}dB")
         } else {
-            applyBoost(stage, progress)
+            gainDb = 0
+            Toast.makeText(this, R.string.gain_unavailable, Toast.LENGTH_LONG).show()
         }
+        refreshPlayerUi()
     }
 
-    private fun applyBoost(stage: BoostStage, progress: Int) {
-        boostPercent = progress
-        seekBoost.progress = progress
-
-        when (stage) {
-            BoostStage.OFF -> stopBoostService()
-            BoostStage.LOW -> {
-                volumeController.setVolumePercent(stage.minVolumePercent, showUi = true)
-                startBoostService()
-            }
-            BoostStage.HIGH -> {
-                volumeController.setVolumePercent(stage.minVolumePercent, showUi = true)
-                startBoostService()
-            }
-        }
-
-        refreshUi()
+    private fun refreshVolumeUi() {
+        seekVolume.max = volumeController.maxVolume
+        seekVolume.progress = volumeController.currentVolume
+        tvVolumeValue.text = getString(R.string.current_volume_format, volumeController.currentPercent)
     }
 
-    private fun showHighBoostWarning(onAccept: () -> Unit) {
-        AlertDialog.Builder(this)
-            .setTitle(getString(R.string.warning_title))
-            .setMessage(getString(R.string.warning_body))
-            .setPositiveButton(getString(R.string.continue_label)) { dialog, _ ->
-                dialog.dismiss()
-                onAccept()
-            }
-            .setNegativeButton(getString(R.string.cancel_label), null)
-            .show()
-    }
-
-    private fun startBoostService() {
-        val intent = Intent(this, BoostForegroundService::class.java)
-            .setAction(BoostForegroundService.ACTION_START_BOOST)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent)
-        } else {
-            startService(intent)
-        }
-    }
-
-    private fun stopBoostService() {
-        val intent = Intent(this, BoostForegroundService::class.java)
-            .setAction(BoostForegroundService.ACTION_STOP_BOOST)
-        startService(intent)
-    }
-
-    private fun boostStage(): BoostStage = BoostStage.fromProgress(boostPercent)
-
-    private fun refreshUi() {
-        val percent = volumeController.currentPercent
-        tvVolumeValue.text = getString(R.string.current_volume_format, percent)
-
-        val stage = boostStage()
-        tvBoostValue.text = getString(
-            R.string.boost_format,
-            stage.label,
-            stage.estimatedDb
+    private fun refreshPlayerUi() {
+        btnPlayPause.text = getString(if (player.isPlaying) R.string.pause else R.string.play)
+        tvPlayerState.text = getString(
+            R.string.player_state_format,
+            GainMath.relativePercent(gainDb),
+            gainDb
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        ContextCompat.registerReceiver(
+            this,
+            globalStateReceiver,
+            IntentFilter(GlobalBoostService.ACTION_STATE),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+        ContextCompat.registerReceiver(
+            this,
+            mediaReceiver,
+            IntentFilter(MediaObserverService.ACTION_MEDIA_UPDATE),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+        if (::volumeController.isInitialized) refreshVolumeUi()
+    }
+
+    override fun onPause() {
+        runCatching { unregisterReceiver(globalStateReceiver) }
+        runCatching { unregisterReceiver(mediaReceiver) }
+        super.onPause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        player.pause()
+    }
+
+    override fun onDestroy() {
+        gainController.release()
+        player.release()
+        super.onDestroy()
+    }
+
     companion object {
-        private const val REQ_NOTIFICATIONS = 1001
+        private const val TAG = "AudioBooster"
     }
 }

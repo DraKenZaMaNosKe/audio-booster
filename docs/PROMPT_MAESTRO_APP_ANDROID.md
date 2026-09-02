@@ -27,6 +27,7 @@ Quiero que desarrolles **[NOMBRE/IDEA DE APP]** como proyecto Android mantenible
 
 - Todo botón, slider, switch, servicio, notificación y permiso debe tener propósito y lógica conectada.
 - No muestres porcentajes, dB, estados “activo”, limiter, EQ o persistencia si el procesamiento correspondiente no existe.
+- Para cada control visible, documenta la cadena completa `acción de UI → estado → API/motor real → resultado observable` y pruébala de extremo a extremo; una clase creada pero no conectada no cuenta como implementación.
 - Distingue capacidades del sistema, capacidades de una sesión propia y funciones experimentales/OEM.
 - Maneja lifecycle, errores, rotación, segundo plano, process death y cambios externos de estado.
 - Usa permisos mínimos y APIs públicas. Justifica cada permiso contra una función visible.
@@ -68,3 +69,7 @@ Comienza con una auditoría y un plan por fases. Luego implementa únicamente la
 ## Nota específica aprendida de Audio Booster
 
 Para apps de audio, exige separar: (a) volumen del sistema hasta el máximo OEM, (b) procesamiento de una sesión reproducida por la propia app y (c) cualquier efecto global experimental. No aceptar como “boost real” una notificación persistente, un slider con dB estimados o una clase de efectos que nunca se conecta a una sesión de audio.
+
+Antes de prometer compatibilidad con Spotify, YouTube u otras apps, exige una API pública documentada y una prueba en dispositivo. Si Android sólo permite procesar la sesión propia, la interfaz, ficha de Play Store y documentación deben decirlo explícitamente. No solicitar permisos de notificación o foreground service hasta que exista reproducción real en segundo plano y una razón compatible con las políticas vigentes.
+
+Si una referencia parece amplificar Spotify, no concluyas que copia la canción. Audita por separado: (1) `NotificationListenerService`/`MediaController` para reflejar metadatos y controles; (2) efectos `DynamicsProcessing`, EQ, compresor y limiter; (3) audio session usada. La sesión global `0` puede funcionar en ciertos OEM, pero Android la documenta como obsoleta para efectos insert. Trátala como compatibilidad experimental: prueba de capacidad, apagado reversible, fallback a sesión propia, matriz OEM/API y claims de tienda limitados a evidencia.

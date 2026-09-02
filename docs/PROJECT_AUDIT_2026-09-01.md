@@ -16,7 +16,7 @@ La base es un prototipo Android válido, no una app de audio booster terminada. 
 
 ## Riesgos críticos
 
-1. **Promesa técnica:** una app Android normal no puede garantizar ganancia global sobre la salida de Spotify u otras apps. El volumen del sistema llega hasta el máximo del fabricante. Los efectos fiables deben pertenecer a una sesión controlada por nuestra app o depender de capacidades específicas del dispositivo.
+1. **Promesa técnica:** una app Android normal no puede garantizar ganancia global en todos los dispositivos. La referencia analizada usa `DynamicsProcessing` sobre la sesión global `0`; funciona en el Samsung probado, pero Android considera obsoleto este uso y su resultado depende del motor OEM. Debe existir detección de capacidad y fallback local.
 2. **Producto engañoso:** mostrar `+3 dB` o `+6 dB` sin aplicar ganancia medible debe eliminarse o etiquetarse como no disponible.
 3. **Foreground service:** declarar `mediaPlayback` sin reproducir medios ni ejecutar una función perceptible crea riesgo técnico y de revisión en Play.
 4. **Seguridad auditiva:** no basta un diálogo. Se requieren límites conservadores, estado inicial seguro, texto transparente y pruebas con bocina/audífonos.
@@ -31,6 +31,7 @@ La base es un prototipo Android válido, no una app de audio booster terminada. 
 - EQ y protección anti-clipping comprobables en el player propio.
 - Presets y accesos rápidos que no prometan modificar audio ajeno.
 - Compatibilidad experimental OEM sólo si se detecta y prueba en ejecución.
+- Modo global experimental con `DynamicsProcessing` en sesión `0`, limiter real, estado reversible y prueba por fabricante/API.
 
 ## No prometer
 

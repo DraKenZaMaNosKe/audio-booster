@@ -54,17 +54,19 @@ Se encontraron nombres de recursos/UI relacionados a volumen/boost/equalizador:
 - `selector_eq_*`
 - `tv_equalizer`
 
-## Lectura funcional preliminar
+## Lectura funcional confirmada el 2026-09-01
 
-**No** se asumió el código como una lección copiable; se extrajo una hipótesis de arquitectura:
+El análisis estático y la inspección en ejecución confirmaron esta arquitectura, sin reutilizar implementación ajena:
 
 1. App crea overlay/foreground UI.
-2. Lee estado de reproducción/notificaciones, posiblemente para mostrar canción actual y no depender de player propio.
-3. Usa `AudioManager` para tocar `STREAM_MUSIC` y/o `STREAM_SYSTEM`.
-4. Aplica efectos de audio en sesión activa: probablemente `AudioEffect`/Equalizer/LoudnessEnhancer/bass/virtualizer.
-5. La sensación de “boost” surge de:
+2. Su `MediaControllerService` es un `NotificationListenerService`. Desde ahí observa la sesión de Spotify y muestra título, artista, portada y estado; no clona ni descarga temporalmente la canción.
+3. Spotify continúa siendo el propietario de la reproducción y de su audio session ID.
+4. El APK crea `DynamicsProcessing` con prioridad máxima y **audio session `0`**, es decir, intenta insertarlo sobre la mezcla global de salida.
+5. La configuración observada incluye dos canales, diez bandas, pre-EQ, post-EQ, compresor multibanda y limiter. También existen rutas para `Equalizer`, `BassBoost`, `Virtualizer` y `Visualizer`.
+6. La ganancia se modifica en tiempo real dentro de `DynamicsProcessing`; por ello puede afectar Spotify en dispositivos cuyo motor OEM todavía admita efectos insertados en la sesión global `0`.
+7. La sensación de “boost” surge de:
    - volumen stream al máximo;
-   - ganancia adicional/equalizer en frecuencias perceptibles;
+   - ganancia/compresión/ecualización global admitida por el motor OEM;
    - overlay/foreground que persuasivamente muestra porcentaje arriba de 100%.
 
 ## Lo que debemos replicar legal y clean-room
@@ -74,6 +76,8 @@ Se encontraron nombres de recursos/UI relacionados a volumen/boost/equalizador:
 - UI de boost propia.
 - Player local opcional para boost claramente explícito dentro de nuestra app.
 - Limitador/compresor para evitar clipping.
+- Modo global experimental mediante APIs públicas `DynamicsProcessing` + sesión `0`, únicamente cuando una prueba de capacidad confirme que el dispositivo lo soporta.
+- Lectura opcional de metadatos mediante Notification Listener con onboarding y explicación de privacidad.
 
 ## Lo que no copiamos
 
@@ -86,4 +90,6 @@ Se encontraron nombres de recursos/UI relacionados a volumen/boost/equalizador:
 
 - Prometer “más del máximo” puede ser confuso: debemos decir “hasta límite seguro del dispositivo + amplificación percibida/local”.
 - `RECORD_AUDIO` puede alarmar usuarios y Play policy; sólo usarlo si realmente aporta una función clara.
+- Android documenta como obsoleto adjuntar efectos insert a la mezcla global mediante sesión `0`; puede fallar o no producir efecto en otros fabricantes/versiones.
+- La app debe detectar soporte y ofrecer fallback al reproductor propio, sin prometer compatibilidad universal.
 - Ads agresivos convierten poco y queman retención.
