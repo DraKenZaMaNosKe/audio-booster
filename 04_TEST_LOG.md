@@ -59,6 +59,7 @@ Pendiente:
 
 ## 2026-09-01 — Identidad y pulido visual
 
+- Validación del usuario en Samsung: el incremento de volumen funciona y la calidad percibida fue calificada como muy buena. Esta evidencia es auditiva subjetiva; las mediciones de clipping/distorsión siguen pendientes.
 - Nombre visible actualizado a `AudioBooster` con firma `BY PIXORA IA`.
 - Splash nativo e icono vectorial original integrados.
 - Menú desplegable personalizado para navegación rápida entre secciones.
