@@ -1,0 +1,8 @@
+<resources>
+    <color name="bg_dark">#0E0B1E</color>
+    <color name="surface_dark">#181332</color>
+    <color name="primary_purple">#8A5CF6</color>
+    <color name="accent_cyan">#22D3EE</color>
+    <color name="text_primary">#F2F3F7</color>
+    <color name="text_muted">#A8A2C7</color>
+</resources>

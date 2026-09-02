@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Pixora Volume Max</string>
+    <string name="volume_title">Volumen del sistema</string>
+    <string name="boost_title">Boost percibido</string>
+    <string name="current_volume_format">Volumen actual: %1$d%%</string>
+    <string name="boost_format">Boost: %1$s • %2$ddB estimado</string>
+    <string name="limiter_label">Limiter anti-clip activado</string>
+    <string name="quick_75">75%</string>
+    <string name="quick_100">100%</string>
+    <string name="boost_low">Leve</string>
+    <string name="boost_high">Fuerte</string>
+    <string name="boost_off">Apagar</string>
+    <string name="start_service">Activar boost foreground</string>
+    <string name="stop_service">Detener foreground</string>
+    <string name="notification_title">Boost activo</string>
+    <string name="notification_text">Controlando el volumen de audio en segundo plano.</string>
+    <string name="warning_title">Advertencia de audio</string>
+    <string name="warning_body">Subir volumen al máximo puede lastimar oídos o bocinas. Continúa bajo tu responsabilidad.</string>
+    <string name="continue_label">Continuar</string>
+    <string name="cancel_label">Cancelar</string>
+</resources>

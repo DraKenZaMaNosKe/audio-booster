@@ -1,0 +1,5 @@
+# Copiar como local.properties si quieres compilar localmente.
+# Ejemplo Windows:
+# sdk.dir=C:\\Users\\lalo\\AppData\\Local\\Android\\Sdk
+
+sdk.dir=
