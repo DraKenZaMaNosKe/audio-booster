@@ -1,5 +1,7 @@
 # Revisión visual — interfaz estéreo
 
+> Selección final: **05 — Thunder Deck**. Ver `SELECTED_DESIGN.md`.
+
 Abrir `stereo_concepts.html` en un navegador y elegir uno de los cinco conceptos. La selección queda guardada en el almacenamiento local del navegador.
 
 ## Principio elegido para la siguiente fase

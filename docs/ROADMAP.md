@@ -36,6 +36,8 @@
 - [ ] Autorizar manualmente el acceso multimedia y verificar Spotify en vivo.
 - [ ] Completar pestaña Ecualizador con controles reales, arte/controles del reproductor y pulido adaptable.
 - [ ] QA auditivo y medición de clipping en Samsung; comprobar fallback en Huawei.
+- [x] Seleccionar dirección artística final: Thunder Deck.
+- [ ] Reconstruir Thunder Deck con componentes Android reales y adaptativos, preservando el motor de audio.
 
 ## Fase 3 — Producto y Play Store
 

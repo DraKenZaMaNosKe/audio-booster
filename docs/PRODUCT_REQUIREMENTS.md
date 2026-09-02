@@ -19,6 +19,8 @@ Crear un amplificador de audio para Android con identidad propia de Orbix, capaz
 
 ## Experiencia e identidad
 
+- Dirección artística aprobada: `Thunder Deck`, concepto 05 de la revisión visual del 2026-09-02.
+
 - Jerarquía inspirada en patrones comunes del mercado: encabezado, pestañas Volumen/Ecualizador, dial central, control del sistema, presets y tarjeta de reproducción.
 - Diseño, ilustración, iconografía, textos, marca y código originales de Orbix. No copiar recursos, configuración numérica privada ni identidad visual de EZ Booster.
 - Tema oscuro azul noche con acentos cian/violeta y altavoces abstractos originales.

@@ -67,3 +67,17 @@ Pendiente:
 - Botones y etiquetas unificados con formas, colores y áreas táctiles Material personalizadas.
 - Se corrigió el scroll automático inicial que ocultaba la cabecera y el contenido bajo la barra de estado.
 - `testDebugUnitTest assembleDebug`: **BUILD SUCCESSFUL**; APK instalada y abierta en Samsung sin excepción `AndroidRuntime` observada.
+
+## 2026-09-02 — Thunder Deck seleccionado y controles reales
+
+- El propietario seleccionó oficialmente el concepto 05 `Thunder Deck`.
+- Se añadió `ExternalMediaControls`, basado en `MediaSessionManager`, para ejecutar anterior, play/pausa y siguiente sobre la sesión multimedia activa autorizada.
+- `SAFE` refleja si el limitador global está activo. `EQ` permanece claramente marcado como próxima fase y sólo informa que aún no está conectado; no simula procesamiento.
+- `testDebugUnitTest assembleDebug`: **BUILD SUCCESSFUL** (40 tareas).
+- APK instalada y abierta en Samsung SM-A155M sin excepción `AndroidRuntime` observada.
+- Acceso a notificaciones confirmado para `com.pixora.volumemax/.MediaObserverService`.
+- No había una sesión musical activa durante la inspección de `dumpsys media_session`; los comandos externos requieren QA con Spotify reproduciendo una canción.
+- Huawei VNS-L53: instalación, arranque, render 1080×1920 y scroll aprobados sin crash observado.
+- Huawei rechazó correctamente el modo global por API inferior a 28; la app liberó el efecto, detuvo el servicio y mostró el fallback al reproductor local.
+- Sin acceso multimedia ni sesión activa, los controles externos mostraron una explicación y no simularon una acción.
+- Evidencia visual guardada en `docs/qa/2026-09-02-huawei/`.

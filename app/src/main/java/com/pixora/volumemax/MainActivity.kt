@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var volumeController: VolumeController
     private lateinit var player: ExoPlayer
     private val gainController = SessionGainController()
+    private lateinit var externalMediaControls: ExternalMediaControls
 
     private lateinit var tvVolumeValue: TextView
     private lateinit var tvTrack: TextView
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var seekVolume: SeekBar
     private lateinit var btnPlayPause: Button
     private lateinit var boostDial: BoostDialView
+    private lateinit var tvSafeLimiter: TextView
 
     private var selectedUri: Uri? = null
     private var gainDb = 0
@@ -93,6 +95,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         volumeController = VolumeController(this)
+        externalMediaControls = ExternalMediaControls(this)
         bindViews()
         setupSectionMenu()
         createPlayer()
@@ -145,11 +148,28 @@ class MainActivity : AppCompatActivity() {
         tvExternalTrack = findViewById(R.id.tvExternalTrack)
         seekVolume = findViewById(R.id.seekVolume)
         btnPlayPause = findViewById(R.id.btnPlayPause)
+        tvSafeLimiter = findViewById(R.id.tvSafeLimiter)
         boostDial = findViewById(R.id.boostDial)
         boostDial.onPercentChanged = ::applyGlobalPreset
         findViewById<Button>(R.id.btnMediaAccess).setOnClickListener {
             startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
         }
+        findViewById<Button>(R.id.btnExternalPrev).setOnClickListener {
+            runExternalControl(externalMediaControls::previous)
+        }
+        findViewById<Button>(R.id.btnExternalPlayPause).setOnClickListener {
+            runExternalControl(externalMediaControls::togglePlayPause)
+        }
+        findViewById<Button>(R.id.btnExternalNext).setOnClickListener {
+            runExternalControl(externalMediaControls::next)
+        }
+        findViewById<Button>(R.id.btnThunderEq).setOnClickListener {
+            Toast.makeText(this, R.string.equalizer_not_ready, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun runExternalControl(action: () -> Boolean) {
+        if (!action()) Toast.makeText(this, R.string.external_controls_unavailable, Toast.LENGTH_LONG).show()
     }
 
     private fun requestNotificationPermissionIfNeeded() {
@@ -218,6 +238,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshGlobalUi() {
         boostDial.percent = globalPercent
+        tvSafeLimiter.text = getString(
+            if (globalPercent > 100) R.string.safe_limiter_active else R.string.safe_limiter_idle
+        )
         tvGlobalState.text = if (globalPercent > 100) {
             getString(R.string.global_state_format, globalPercent)
         } else {

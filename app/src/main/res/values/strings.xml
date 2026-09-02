@@ -48,6 +48,14 @@
     <string name="enable_media_access">Activar acceso multimedia</string>
     <string name="external_track_format">%1$s\n%2$s · %3$s</string>
     <string name="global_warning_body">Superar 100% puede causar distorsión y dañar tus oídos o bocinas. Empieza bajo y aumenta gradualmente. El resultado depende del dispositivo.</string>
+    <string name="previous_track">Canción anterior</string>
+    <string name="next_track">Canción siguiente</string>
+    <string name="play_pause_external">Reproducir o pausar la sesión externa</string>
+    <string name="external_controls_unavailable">Activa el acceso multimedia y reproduce una canción para usar estos controles.</string>
+    <string name="equalizer_pending">EQ · Próxima fase</string>
+    <string name="equalizer_not_ready">El ecualizador todavía no está conectado; no se mostrará como funcional hasta que sea real.</string>
+    <string name="safe_limiter_idle">SAFE · EN ESPERA</string>
+    <string name="safe_limiter_active">SAFE · LIMITADOR ACTIVO</string>
     <string name="dial_label">POTENCIA ORBIX</string>
     <string name="dial_accessibility">Potencia seleccionada: %1$d por ciento</string>
 </resources>
