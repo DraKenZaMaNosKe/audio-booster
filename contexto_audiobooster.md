@@ -89,6 +89,8 @@ Capas v5: `thunder_run_stereo_shell_v5.png` es una carcasa con exterior transpar
 
 QA Samsung de capas v5: el límite de la perilla permaneció en `[329,808][750,1229]` antes y después de un gesto 0→200. Capturas y video están en `docs/qa/2026-09-03-layered-shell/`. El prompt, fuente verde y procedimiento están en `docs/design_review/THUNDER_LAYERED_V5_ASSET.md`.
 
+Escenario fijo: `mainStage` reemplaza al contenedor desplazable. Arrastrar cualquier parte del fondo o chasis no mueve el estéreo. La bandeja local, `+`, play local, ganancias y marcador AD están ocultos de la pantalla principal; su código se conserva fuera de la experiencia visual para fases secundarias/monetización.
+
 La interfaz actual ya usa el chasis Thunder Deck con perilla, fondo y controles funcionales. Permanecen pendientes el refinamiento adaptativo final, la accesibilidad completa y un visualizador basado en medición de audio autorizada.
 
 ## Arquitectura y archivos importantes

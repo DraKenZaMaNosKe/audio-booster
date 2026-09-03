@@ -36,6 +36,7 @@
 - [ ] Autorizar manualmente el acceso multimedia y verificar Spotify en vivo.
 - [ ] Completar pestaña Ecualizador con controles reales, arte/controles del reproductor y pulido adaptable.
 - [x] Separar fondo, carcasa, rotor y LEDs para impedir que el gesto mueva toda la composición.
+- [x] Fijar completamente el escenario principal y retirar de vista la bandeja local inferior.
 - [ ] Separar conos/rejillas de bocinas y conectar animación por bandas a medición real donde Android lo permita.
 - [x] Mostrar en la pantalla del estéreo canción, artista/fuente, volumen, boost y estado SAFE, conservando el ecualizador.
 - [ ] QA auditivo y medición de clipping en Samsung; comprobar fallback en Huawei.

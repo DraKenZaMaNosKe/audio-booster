@@ -166,3 +166,12 @@ Pendiente:
 - Samsung: el dial pasó de 0 a 200 sin cambiar sus límites `[329,808][750,1229]`, prueba de que el `ScrollView` no desplazó fondo ni chasis.
 - La auditoría añadió restauración del valor inicial en `ACTION_CANCEL` y cierre correcto al levantar el puntero activo en multitoque.
 - Evidencia final: `docs/qa/2026-09-03-layered-shell/samsung_shell_v5_arrows.png`, `samsung_knob_focus_drag.png`, `samsung_shell_v5_200.png` y `samsung_knob_captured_no_scroll.mp4`.
+
+## 2026-09-03 — Escenario fijo y limpieza inferior
+
+- El contenedor principal dejó de ser `ScrollView`; `mainStage` es un escenario fijo y no responde a arrastres sobre el fondo o chasis.
+- Se ocultaron el reproductor local inferior, selector `+`, botón play local y presets locales, conservando su implementación para una futura pantalla secundaria.
+- `adBannerSlot` continúa definido para monetización, pero permanece oculto hasta integrar consentimiento y anuncios reales.
+- Gesto de control: antes y después de arrastrar sobre el chasis, la perilla mantuvo valor 27% y límites `[329,808][750,1229]`.
+- Evidencia Samsung: `docs/qa/2026-09-03-static-stage/`.
+- `testDebugUnitTest assembleDebug`: correcta (40 tareas).
