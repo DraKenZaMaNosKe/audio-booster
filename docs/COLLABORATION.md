@@ -7,12 +7,18 @@
 3. Cada agente debe iniciar con `git status --short --branch`, `git log -5 --oneline` y lectura de este archivo.
 4. Nadie debe sobrescribir cambios ajenos ni trabajar sobre cambios no entendidos.
 
+## Sincronización continua autorizada
+
+Cada incremento verificable debe compilar, registrar evidencia, crear un commit independiente en `main`, hacer push inmediato a `origin/main` y actualizar el espejo de Drive. El espejo excluye `.git`, cachés, builds y configuración específica de la computadora.
+
+Cuando cambie el punto de reanudación, `contexto_audiobooster.md` debe actualizarse y verificarse tanto en GitHub como en Drive.
+
 ## Flujo
 
-- Crear una rama por objetivo: `feature/...`, `fix/...`, `docs/...`.
+- Para incrementos pequeños y verificados puede trabajarse directamente en `main`. Los objetivos grandes o riesgosos usan `feature/...`, `fix/...` o `docs/...` y se fusionan a `main` antes de sincronizar el avance.
 - Un commit debe contener un cambio coherente y su documentación/pruebas asociadas.
 - Antes de entregar: build, tests, lint y resumen de archivos cambiados.
-- No hacer push, release, deploy o publicación en Play sin autorización explícita, excepto el push inicial solicitado para crear este repositorio.
+- Los pushes de avances verificados a `origin/main` están autorizados por el propietario. Releases, despliegues externos y publicación en Play Store requieren autorización explícita adicional.
 - No guardar tokens, contraseñas, keystores ni archivos `local.properties`.
 
 ## Formato de handoff

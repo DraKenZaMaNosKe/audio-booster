@@ -136,13 +136,15 @@ Deuda conocida: AGP 8.5.2 sólo declara compatibilidad probada hasta SDK 34. Se 
 
 ## Reglas de trabajo
 
-1. GitHub es la fuente canónica; Drive es espejo documental/QA.
-2. No copiar assets, marca, textos ni código de EZ Booster. El análisis fue clean-room.
-3. No presentar controles decorativos como funciones reales.
-4. Mantener cambios de audio/UI separados de monetización/login cuando sea posible.
-5. Ejecutar build/tests, instalar en dispositivo y guardar evidencia antes de declarar una fase terminada.
-6. Invocar la revisión Orbix Guardian después de cambios relevantes y atender bloqueadores antes del commit.
-7. No modificar `D:\Orbix\Pixora-IA`; sólo consultarlo como referencia cuando corresponda.
+1. GitHub es la fuente canónica; Drive es espejo del proyecto, excluyendo `.git`, cachés, builds y configuración local.
+2. Cada incremento que compile y pase su verificación debe cerrarse con commit en `main`, push a GitHub y sincronización del espejo completo de Drive para revisión desde otra computadora.
+3. No publicar una fase rota como terminada. Los avances parciales o experimentales deben identificarse en `04_TEST_LOG.md` y en este contexto.
+4. No copiar assets, marca, textos ni código de EZ Booster. El análisis fue clean-room.
+5. No presentar controles decorativos como funciones reales.
+6. Mantener cambios de audio/UI separados de monetización/login cuando sea posible.
+7. Ejecutar build/tests, instalar en dispositivo y guardar evidencia antes de declarar una fase terminada.
+8. Invocar la revisión Orbix Guardian después de cambios relevantes y atender bloqueadores antes del commit.
+9. No modificar `D:\Orbix\Pixora-IA`; sólo consultarlo como referencia cuando corresponda.
 
 ## Siguiente paso exacto
 
