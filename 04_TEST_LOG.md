@@ -152,3 +152,17 @@ Pendiente:
 - Samsung con Spotify activo: `samsung_stereo_display_ad_slot_v3.png`; espacio reservado visible en `samsung_ad_slot_v1.png`, ambos dentro de `docs/qa/2026-09-02-rotor-and-controls/`.
 - Se corrigió la pérdida del primer metadato: `MediaObserverService` conserva el último snapshot y la actividad lo recupera al volver a primer plano.
 - `testDebugUnitTest assembleDebug`: correcta (40 tareas).
+
+## 2026-09-02 — LEDs térmicos, gesto capturado y carcasa por capas
+
+- Se retiró el porcentaje blanco de la perilla. El valor exacto permanece en el display y en accesibilidad.
+- 0–100% enciende progresivamente 44 LEDs azul → cian → violeta → magenta → rojo.
+- 100–200% conserva todos los LEDs activos y aumenta grosor, rojo, halo y pulso.
+- El gesto ahora es relativo al punto de contacto; bloquea el scroll mientras el dedo está unido a la perilla y lo libera al levantar/cancelar.
+- Durante el contacto aparecen halo cian y aumento sutil del rotor.
+- Carcasa v5 generada sobre verde croma, procesada a alpha real y dividida del fondo, rotor y LEDs.
+- Anterior/siguiente sustituidos por botones metálicos cian con iconos vectoriales propios.
+- `testDebugUnitTest assembleDebug`: correcta (40 tareas).
+- Samsung: el dial pasó de 0 a 200 sin cambiar sus límites `[329,808][750,1229]`, prueba de que el `ScrollView` no desplazó fondo ni chasis.
+- La auditoría añadió restauración del valor inicial en `ACTION_CANCEL` y cierre correcto al levantar el puntero activo en multitoque.
+- Evidencia final: `docs/qa/2026-09-03-layered-shell/samsung_shell_v5_arrows.png`, `samsung_knob_focus_drag.png`, `samsung_shell_v5_200.png` y `samsung_knob_captured_no_scroll.mp4`.

@@ -143,16 +143,24 @@ class MainActivity : AppCompatActivity() {
         ).forEach { findViewById<Button>(it).backgroundTintList = null }
         boostDial.onPercentChanged = ::applyGlobalPreset
         boostDial.onPercentPreview = { updateKnobRotation(it, animate = false) }
+        boostDial.onInteractionChanged = { active ->
+            knobSprite.animate()
+                .scaleX(if (active) 1.055f else 1f)
+                .scaleY(if (active) 1.055f else 1f)
+                .alpha(if (active) 1f else .96f)
+                .setDuration(if (active) 110L else 180L)
+                .start()
+        }
         findViewById<Button>(R.id.btnMediaAccess).setOnClickListener {
             startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
         }
-        findViewById<Button>(R.id.btnExternalPrev).setOnClickListener {
+        findViewById<android.view.View>(R.id.btnExternalPrev).setOnClickListener {
             runExternalControl(externalMediaControls::previous)
         }
         findViewById<Button>(R.id.btnExternalPlayPause).setOnClickListener {
             runExternalControl(externalMediaControls::togglePlayPause)
         }
-        findViewById<Button>(R.id.btnExternalNext).setOnClickListener {
+        findViewById<android.view.View>(R.id.btnExternalNext).setOnClickListener {
             runExternalControl(externalMediaControls::next)
         }
         findViewById<Button>(R.id.btnThunderEq).setOnClickListener {

@@ -85,6 +85,10 @@ Ambientación visual: `thunder_room_cabinet_v1.png` aporta la sala nocturna y la
 
 Pantalla informativa: el display del estéreo conserva el ecualizador y ahora presenta título, artista/fuente, volumen multimedia real, boost seleccionado y SAFE/LIMIT. Sin sesión activa muestra un estado breve. La interfaz reserva `adBannerSlot` debajo de los controles; todavía no existe SDK AdMob, consentimiento ni IDs reales. Monetización y Google Sign-In se implementarán después de cerrar el look and feel.
 
+Capas v5: `thunder_run_stereo_shell_v5.png` es una carcasa con exterior transparente, canal LED apagado y cavidad sin rotor. El fondo, chasis, LEDs y rotor son capas separadas. La perilla captura el puntero, usa delta angular relativo y bloquea el desplazamiento del contenedor hasta `UP/CANCEL`; el foco se muestra mediante halo cian y escala sutil. Las flechas blancas fueron sustituidas por controles metálicos cian. El siguiente detalle vivo propuesto es separar conos y rejillas para animar graves/medios/agudos con medición real cuando sea posible.
+
+QA Samsung de capas v5: el límite de la perilla permaneció en `[329,808][750,1229]` antes y después de un gesto 0→200. Capturas y video están en `docs/qa/2026-09-03-layered-shell/`. El prompt, fuente verde y procedimiento están en `docs/design_review/THUNDER_LAYERED_V5_ASSET.md`.
+
 La interfaz actual ya usa el chasis Thunder Deck con perilla, fondo y controles funcionales. Permanecen pendientes el refinamiento adaptativo final, la accesibilidad completa y un visualizador basado en medición de audio autorizada.
 
 ## Arquitectura y archivos importantes
