@@ -89,6 +89,8 @@ Capas v5: `thunder_run_stereo_shell_v5.png` es una carcasa con exterior transpar
 
 Marca en pantalla: el texto provisional `THUNDER RUN` fue eliminado. La pantalla del estéreo ahora dibuja `AUDIO BOOSTER - PIXORA IA` mediante `LedBrandView`, con tipografía monoespaciada, contorno oscuro, gradiente cian-violeta-magenta, brillo y líneas de barrido. Es una capa nativa adaptable y accesible, no texto incrustado en la imagen de la carcasa.
 
+Estado de lanzamiento 2026-09-03: versión preparada como `1.0.0` (`versionCode=1`) y migrada a `compileSdk/targetSdk 36`, AGP 8.13.2 y Gradle 8.13 para cumplir el requisito vigente de aplicaciones nuevas en Google Play. Huawei VNS-L53 validó instalación, arranque, marca LED sin recorte y gesto de perilla. Se prepararon notas, checklist y dos anuncios verticales. Falta configurar una clave de carga dedicada antes de producir el AAB firmado; nunca usar la clave debug ni guardar contraseñas/keystores en Git o Drive compartido.
+
 QA Samsung de capas v5: el límite de la perilla permaneció en `[329,808][750,1229]` antes y después de un gesto 0→200. Capturas y video están en `docs/qa/2026-09-03-layered-shell/`. El prompt, fuente verde y procedimiento están en `docs/design_review/THUNDER_LAYERED_V5_ASSET.md`.
 
 Escenario fijo: `mainStage` reemplaza al contenedor desplazable. Arrastrar cualquier parte del fondo o chasis no mueve el estéreo. La bandeja local, `+`, play local, ganancias y marcador AD están ocultos de la pantalla principal; su código se conserva fuera de la experiencia visual para fases secundarias/monetización.

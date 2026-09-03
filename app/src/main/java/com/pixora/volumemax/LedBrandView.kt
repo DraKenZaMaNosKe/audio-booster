@@ -40,7 +40,13 @@ class LedBrandView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        val textSize = height * .43f
+        val horizontalInset = width * .08f
+        val availableWidth = (width - horizontalInset * 2f).coerceAtLeast(1f)
+        val heightLimitedSize = height * .43f
+        fill.textSize = heightLimitedSize
+        val measuredWidth = fill.measureText(label).coerceAtLeast(1f)
+        val widthLimitedSize = heightLimitedSize * availableWidth / measuredWidth
+        val textSize = minOf(heightLimitedSize, widthLimitedSize)
         val baseline = height * .64f
         outline.textSize = textSize
         outline.strokeWidth = (textSize * .12f).coerceAtLeast(1.2f)

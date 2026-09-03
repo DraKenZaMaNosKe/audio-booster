@@ -182,4 +182,14 @@ Pendiente:
 - El rótulo conserva su posición dentro del marco físico y no se superpone con título, estado o ecualizador.
 - Compilación y pruebas unitarias correctas; instalación y captura verificadas en Samsung `RF8X903KZ3K`.
 - Evidencia final: `docs/qa/2026-09-03-led-brand/samsung_audio_booster_pixora_led_final.png`.
+
+## 2026-09-03 — Ajuste adaptable, Huawei y preparación 1.0.0
+
+- `LedBrandView` limita el tamaño por altura y por ancho medido; mantiene 8% de margen interno y evita recorte en pantallas estrechas.
+- Huawei VNS-L53 (1080×1920, Android 7): instalación, arranque y respuesta de la perilla correctos; el estéreo permaneció fijo durante el gesto.
+- Versión instalada: `1.0.0` (`versionCode=1`), `targetSdk=36`.
+- Build: `testDebugUnitTest assembleDebug` correcto con AGP 8.13.2 y Gradle 8.13.
+- Sin `FATAL EXCEPTION` en la revisión posterior al arranque.
+- Evidencia: `docs/qa/2026-09-03-huawei-led-fit/`.
+- El AAB final permanece pendiente únicamente de crear/configurar una clave de carga dedicada y recuperable.
 - `testDebugUnitTest assembleDebug`: correcta (40 tareas).
