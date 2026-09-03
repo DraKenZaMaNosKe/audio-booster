@@ -26,9 +26,9 @@
                 <com.pixora.volumemax.ThunderEqualizerView android:id="@+id/thunderEqualizer"
                     android:layout_width="match_parent" android:layout_height="60dp"
                     android:layout_gravity="bottom" android:importantForAccessibility="no" />
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:gravity="center" android:text="THUNDER RUN" android:textColor="@color/text_primary"
-                    android:textSize="12sp" android:textStyle="bold" />
+                <com.pixora.volumemax.LedBrandView
+                    android:layout_width="match_parent" android:layout_height="24dp"
+                    android:layout_gravity="top" />
                 <TextView android:id="@+id/tvGlobalState" android:layout_width="match_parent"
                     android:layout_height="18dp" android:layout_marginTop="47dp"
                     android:ellipsize="end" android:gravity="center" android:maxLines="1" android:text="MEDIA"

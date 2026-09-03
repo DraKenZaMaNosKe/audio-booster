@@ -87,6 +87,8 @@ Pantalla informativa: el display del estéreo conserva el ecualizador y ahora pr
 
 Capas v5: `thunder_run_stereo_shell_v5.png` es una carcasa con exterior transparente, canal LED apagado y cavidad sin rotor. El fondo, chasis, LEDs y rotor son capas separadas. La perilla captura el puntero, usa delta angular relativo y bloquea el desplazamiento del contenedor hasta `UP/CANCEL`; el foco se muestra mediante halo cian y escala sutil. Las flechas blancas fueron sustituidas por controles metálicos cian. El siguiente detalle vivo propuesto es separar conos y rejillas para animar graves/medios/agudos con medición real cuando sea posible.
 
+Marca en pantalla: el texto provisional `THUNDER RUN` fue eliminado. La pantalla del estéreo ahora dibuja `AUDIO BOOSTER - PIXORA IA` mediante `LedBrandView`, con tipografía monoespaciada, contorno oscuro, gradiente cian-violeta-magenta, brillo y líneas de barrido. Es una capa nativa adaptable y accesible, no texto incrustado en la imagen de la carcasa.
+
 QA Samsung de capas v5: el límite de la perilla permaneció en `[329,808][750,1229]` antes y después de un gesto 0→200. Capturas y video están en `docs/qa/2026-09-03-layered-shell/`. El prompt, fuente verde y procedimiento están en `docs/design_review/THUNDER_LAYERED_V5_ASSET.md`.
 
 Escenario fijo: `mainStage` reemplaza al contenedor desplazable. Arrastrar cualquier parte del fondo o chasis no mueve el estéreo. La bandeja local, `+`, play local, ganancias y marcador AD están ocultos de la pantalla principal; su código se conserva fuera de la experiencia visual para fases secundarias/monetización.

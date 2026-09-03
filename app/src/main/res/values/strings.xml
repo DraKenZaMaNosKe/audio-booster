@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">AudioBooster</string>
     <string name="brand_signature">BY PIXORA IA</string>
+    <string name="screen_brand_led">AUDIO BOOSTER - PIXORA IA</string>
+    <string name="screen_brand_accessibility">Audio Booster por Pixora IA</string>
     <string name="section_menu_description">Menú de secciones</string>
     <string-array name="section_menu_items">
         <item>Volumen y potencia</item>

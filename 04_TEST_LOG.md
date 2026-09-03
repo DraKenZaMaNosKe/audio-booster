@@ -174,4 +174,12 @@ Pendiente:
 - `adBannerSlot` continúa definido para monetización, pero permanece oculto hasta integrar consentimiento y anuncios reales.
 - Gesto de control: antes y después de arrastrar sobre el chasis, la perilla mantuvo valor 27% y límites `[329,808][750,1229]`.
 - Evidencia Samsung: `docs/qa/2026-09-03-static-stage/`.
+
+## 2026-09-03 — Marca LED integrada en la pantalla
+
+- Se retiró visualmente el nombre provisional `THUNDER RUN`.
+- La pantalla incorpora `AUDIO BOOSTER - PIXORA IA` como rótulo nativo LED: contorno oscuro, gradiente cian-violeta-magenta, halo y líneas de barrido.
+- El rótulo conserva su posición dentro del marco físico y no se superpone con título, estado o ecualizador.
+- Compilación y pruebas unitarias correctas; instalación y captura verificadas en Samsung `RF8X903KZ3K`.
+- Evidencia final: `docs/qa/2026-09-03-led-brand/samsung_audio_booster_pixora_led_final.png`.
 - `testDebugUnitTest assembleDebug`: correcta (40 tareas).
