@@ -143,3 +143,12 @@ Pendiente:
 - La carcasa interactiva se redujo al 90% conservando sus vistas Android y zonas táctiles.
 - Samsung `RF8X903KZ3K`: instalación correcta y captura `docs/qa/2026-09-02-rotor-and-controls/samsung_room_cabinet_v1.png`.
 - Compilación: `testDebugUnitTest assembleDebug` correcta (40 tareas).
+
+## 2026-09-02 — Display informativo y reserva publicitaria
+
+- La pantalla muestra canción, artista/fuente, volumen del sistema, boost y SAFE/LIMIT sin retirar el ecualizador.
+- Estado vacío verificado como `SIN REPRODUCCIÓN · MEDIA`; el dispositivo no tenía una sesión Spotify activa durante la captura.
+- Se reservó `adBannerSlot` de 56dp al final del contenido, todavía sin SDK, red ni IDs publicitarios.
+- Samsung con Spotify activo: `samsung_stereo_display_ad_slot_v3.png`; espacio reservado visible en `samsung_ad_slot_v1.png`, ambos dentro de `docs/qa/2026-09-02-rotor-and-controls/`.
+- Se corrigió la pérdida del primer metadato: `MediaObserverService` conserva el último snapshot y la actividad lo recupera al volver a primer plano.
+- `testDebugUnitTest assembleDebug`: correcta (40 tareas).

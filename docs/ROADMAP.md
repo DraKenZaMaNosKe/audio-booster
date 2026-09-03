@@ -35,6 +35,7 @@
 - [x] Integrar fondo original y dial Orbix interactivo de 0 a 200%.
 - [ ] Autorizar manualmente el acceso multimedia y verificar Spotify en vivo.
 - [ ] Completar pestaña Ecualizador con controles reales, arte/controles del reproductor y pulido adaptable.
+- [x] Mostrar en la pantalla del estéreo canción, artista/fuente, volumen, boost y estado SAFE, conservando el ecualizador.
 - [ ] QA auditivo y medición de clipping en Samsung; comprobar fallback en Huawei.
 - [x] Seleccionar dirección artística final: Thunder Deck.
 - [x] Reconstruir Thunder Deck con componentes Android reales y adaptativos, preservando el motor de audio.
@@ -50,7 +51,9 @@
 - [x] Diseñar estrategia de monetización separada del núcleo de audio (`MONETIZATION_PLAN.md`).
 - [ ] Integrar UMP/consentimiento con IDs de prueba y kill switch.
 - [ ] Integrar anuncios adaptables en superficies estáticas; no interrumpir controles ni reproducción.
+- [x] Reservar visualmente `adBannerSlot` sin SDK, solicitudes ni IDs reales.
 - [ ] Añadir Premium con Play Billing y verificación confiable de derechos.
+- [ ] Integrar inicio de sesión con Google después de cerrar la interfaz y antes del lanzamiento, separado de anuncios y del motor de audio.
 
 ## Gate de avance
 

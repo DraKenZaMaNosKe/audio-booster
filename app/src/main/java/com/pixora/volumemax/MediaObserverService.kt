@@ -47,6 +47,7 @@ class MediaObserverService : NotificationListenerService() {
         val metadata = controller?.metadata
         val title = metadata?.description?.title?.toString().orEmpty()
         val artist = metadata?.description?.subtitle?.toString().orEmpty()
+        latestSnapshot = MediaSnapshot(title, artist, controller?.packageName.orEmpty())
         sendBroadcast(
             Intent(ACTION_MEDIA_UPDATE).setPackage(packageName)
                 .putExtra(EXTRA_TITLE, title)
@@ -56,6 +57,7 @@ class MediaObserverService : NotificationListenerService() {
     }
 
     private fun publishUnavailable() {
+        latestSnapshot = MediaSnapshot()
         sendBroadcast(Intent(ACTION_MEDIA_UPDATE).setPackage(packageName))
     }
 
@@ -71,6 +73,16 @@ class MediaObserverService : NotificationListenerService() {
         }
 
     companion object {
+        data class MediaSnapshot(
+            val title: String = "",
+            val artist: String = "",
+            val source: String = ""
+        )
+
+        @Volatile private var latestSnapshot = MediaSnapshot()
+
+        fun currentSnapshot(): MediaSnapshot = latestSnapshot
+
         const val ACTION_MEDIA_UPDATE = "com.pixora.volumemax.MEDIA_UPDATE"
         const val EXTRA_TITLE = "title"
         const val EXTRA_ARTIST = "artist"

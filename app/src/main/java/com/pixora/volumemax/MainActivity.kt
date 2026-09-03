@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvPlayerState: TextView
     private lateinit var tvGlobalState: TextView
     private lateinit var tvExternalTrack: TextView
+    private lateinit var tvScreenStats: TextView
     private lateinit var seekVolume: SeekBar
     private lateinit var btnPlayPause: Button
     private lateinit var boostDial: BoostDialView
@@ -58,6 +59,10 @@ class MainActivity : AppCompatActivity() {
     private var gainDb = 0
     private var globalPercent = 0
     private var globalWarningAccepted = false
+    private var externalTitle = ""
+    private var externalArtist = ""
+    private var externalSource = ""
+    private var localTrackTitle = ""
 
     private val globalStateReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -79,8 +84,10 @@ class MainActivity : AppCompatActivity() {
             val title = intent?.getStringExtra(MediaObserverService.EXTRA_TITLE).orEmpty()
             val artist = intent?.getStringExtra(MediaObserverService.EXTRA_ARTIST).orEmpty()
             val source = intent?.getStringExtra(MediaObserverService.EXTRA_SOURCE).orEmpty()
-            tvExternalTrack.text = if (title.isBlank()) getString(R.string.media_access_needed)
-            else getString(R.string.external_track_format, title, artist, source)
+            externalTitle = title
+            externalArtist = artist
+            externalSource = source
+            refreshStereoScreen()
         }
     }
 
@@ -119,6 +126,7 @@ class MainActivity : AppCompatActivity() {
         tvPlayerState = findViewById(R.id.tvPlayerState)
         tvGlobalState = findViewById(R.id.tvGlobalState)
         tvExternalTrack = findViewById(R.id.tvExternalTrack)
+        tvScreenStats = findViewById(R.id.tvScreenStats)
         seekVolume = findViewById(R.id.seekVolume)
         btnPlayPause = findViewById(R.id.btnPlayPause)
         tvSafeLimiter = findViewById(R.id.tvSafeLimiter)
@@ -232,7 +240,7 @@ class MainActivity : AppCompatActivity() {
         )
         tvSafeLimiter.text = "SAFE"
         tvSafeLimiter.contentDescription = limiterDescription
-        tvGlobalState.text = if (globalPercent > 100) "$globalPercent%" else "OFF"
+        refreshStereoScreen()
         tvGlobalState.contentDescription = if (globalPercent > 100) {
             getString(R.string.global_state_format, globalPercent)
         } else getString(R.string.global_state_off)
@@ -328,7 +336,9 @@ class MainActivity : AppCompatActivity() {
         selectedUri = uri
         player.setMediaItem(MediaItem.fromUri(uri))
         player.prepare()
-        tvTrack.text = displayName(uri)
+        localTrackTitle = displayName(uri)
+        tvTrack.text = localTrackTitle
+        refreshStereoScreen()
         refreshPlayerUi()
     }
 
@@ -354,6 +364,43 @@ class MainActivity : AppCompatActivity() {
         seekVolume.max = volumeController.maxVolume
         seekVolume.progress = volumeController.currentVolume
         tvVolumeValue.text = getString(R.string.current_volume_format, volumeController.currentPercent)
+        if (::tvScreenStats.isInitialized) refreshStereoScreen()
+    }
+
+    private fun refreshStereoScreen() {
+        if (!::tvScreenStats.isInitialized || !::volumeController.isInitialized) return
+        val hasExternal = externalTitle.isNotBlank()
+        val title = when {
+            hasExternal -> externalTitle
+            localTrackTitle.isNotBlank() -> localTrackTitle
+            else -> getString(R.string.screen_no_media)
+        }
+        val subtitle = when {
+            hasExternal -> listOf(externalArtist, friendlySource(externalSource)).filter { it.isNotBlank() }.joinToString(" • ")
+            localTrackTitle.isNotBlank() -> getString(R.string.screen_source_local)
+            else -> ""
+        }
+        tvExternalTrack.text = if (subtitle.isBlank()) title else "$title\n$subtitle"
+        tvGlobalState.text = when {
+            hasExternal -> friendlySource(externalSource).ifBlank { getString(R.string.screen_source_media) }
+            localTrackTitle.isNotBlank() -> getString(R.string.screen_source_local)
+            else -> getString(R.string.screen_source_media)
+        }
+        val boost = if (globalPercent > 100) "$globalPercent%" else getString(R.string.screen_boost_off)
+        val safe = getString(if (globalPercent > 100) R.string.screen_safe_active else R.string.screen_safe_idle)
+        tvScreenStats.text = getString(
+            R.string.screen_stats_format,
+            volumeController.currentPercent,
+            boost,
+            safe
+        )
+    }
+
+    private fun friendlySource(packageName: String): String = when {
+        packageName.contains("spotify", ignoreCase = true) -> "SPOTIFY"
+        packageName.contains("youtube", ignoreCase = true) -> "YOUTUBE"
+        packageName.contains("music", ignoreCase = true) -> "MÚSICA"
+        else -> packageName.substringAfterLast('.').uppercase()
     }
 
     private fun refreshPlayerUi() {
@@ -380,6 +427,11 @@ class MainActivity : AppCompatActivity() {
             IntentFilter(MediaObserverService.ACTION_MEDIA_UPDATE),
             ContextCompat.RECEIVER_NOT_EXPORTED
         )
+        MediaObserverService.currentSnapshot().let {
+            externalTitle = it.title
+            externalArtist = it.artist
+            externalSource = it.source
+        }
         if (::volumeController.isInitialized) refreshVolumeUi()
     }
 

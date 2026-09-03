@@ -47,6 +47,15 @@
     <string name="media_access_needed">Concede acceso a notificaciones para mostrar la canción de Spotify u otro reproductor.</string>
     <string name="enable_media_access">Activar acceso multimedia</string>
     <string name="external_track_format">%1$s\n%2$s · %3$s</string>
+    <string name="external_track_compact">%1$s\n%2$s • %3$s</string>
+    <string name="screen_no_media">SIN REPRODUCCIÓN</string>
+    <string name="screen_source_media">MEDIA</string>
+    <string name="screen_source_local">LOCAL</string>
+    <string name="screen_boost_off">OFF</string>
+    <string name="screen_stats_format">VOL %1$d%%  •  BOOST %2$s  •  %3$s</string>
+    <string name="screen_safe_idle">SAFE</string>
+    <string name="screen_safe_active">LIMIT</string>
+    <string name="ad_space_description">Espacio reservado para banner adaptable</string>
     <string name="global_warning_body">Superar 100% puede causar distorsión y dañar tus oídos o bocinas. Empieza bajo y aumenta gradualmente. El resultado depende del dispositivo.</string>
     <string name="previous_track">Canción anterior</string>
     <string name="next_track">Canción siguiente</string>

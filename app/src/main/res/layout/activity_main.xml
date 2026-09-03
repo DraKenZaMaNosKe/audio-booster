@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#05070B">
+    android:background="#05070B" android:fitsSystemWindows="true">
 
     <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
         android:contentDescription="@null" android:importantForAccessibility="no"
@@ -11,7 +11,8 @@
     android:id="@+id/mainScroll" android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@android:color/transparent" android:fillViewport="true">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:gravity="center_horizontal" android:orientation="vertical">
+        android:gravity="center_horizontal" android:orientation="vertical"
+        android:paddingBottom="32dp">
 
         <FrameLayout android:layout_width="360dp" android:layout_height="640dp"
             android:layout_marginTop="20dp" android:scaleX="0.90" android:scaleY="0.90">
@@ -23,19 +24,24 @@
                 android:layout_gravity="top|center_horizontal" android:layout_marginTop="50dp"
                 android:padding="8dp">
                 <com.pixora.volumemax.ThunderEqualizerView android:id="@+id/thunderEqualizer"
-                    android:layout_width="match_parent" android:layout_height="78dp"
+                    android:layout_width="match_parent" android:layout_height="60dp"
                     android:layout_gravity="bottom" android:importantForAccessibility="no" />
                 <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:gravity="center" android:text="THUNDER RUN" android:textColor="@color/text_primary"
                     android:textSize="12sp" android:textStyle="bold" />
                 <TextView android:id="@+id/tvGlobalState" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:layout_gravity="center"
-                    android:gravity="center" android:text="OFF" android:textColor="@color/accent_cyan"
-                    android:textSize="9sp" />
+                    android:layout_height="18dp" android:layout_marginTop="47dp"
+                    android:ellipsize="end" android:gravity="center" android:maxLines="1" android:text="MEDIA"
+                    android:textColor="@color/accent_cyan" android:textSize="7sp" android:textStyle="bold" />
                 <TextView android:id="@+id/tvExternalTrack" android:layout_width="match_parent"
-                    android:layout_height="22dp" android:layout_gravity="bottom" android:ellipsize="end"
-                    android:gravity="center" android:maxLines="1" android:text="♫"
-                    android:textColor="@color/text_primary" android:textSize="8sp" />
+                    android:layout_height="32dp" android:layout_marginTop="16dp" android:ellipsize="end"
+                    android:gravity="center" android:maxLines="2" android:text="♫"
+                    android:textColor="@color/text_primary" android:textSize="8sp" android:textStyle="bold" />
+                <TextView android:id="@+id/tvScreenStats" android:layout_width="match_parent"
+                    android:layout_height="18dp" android:layout_gravity="bottom"
+                    android:background="#C805070B" android:ellipsize="end" android:gravity="center"
+                    android:maxLines="1" android:text="VOL 0%  •  BOOST OFF  •  SAFE"
+                    android:textColor="#8BEAFF" android:textSize="6sp" />
             </FrameLayout>
 
             <ImageView android:id="@+id/knobSprite" android:layout_width="116dp" android:layout_height="116dp"
@@ -128,6 +134,15 @@
                 android:contentDescription="@string/gain_6" android:minWidth="0dp" android:text="+6"
                 android:textColor="#FF7048" />
         </LinearLayout>
+
+        <FrameLayout android:id="@+id/adBannerSlot" android:layout_width="match_parent"
+            android:layout_height="56dp" android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="4dp" android:background="@drawable/bg_thunder_tray"
+            android:contentDescription="@string/ad_space_description">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="center" android:text="AD" android:textColor="#667B8A9C"
+                android:textSize="8sp" android:textStyle="bold" />
+        </FrameLayout>
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:visibility="gone">
             <SeekBar android:id="@+id/seekVolume" android:layout_width="match_parent" android:layout_height="wrap_content" />

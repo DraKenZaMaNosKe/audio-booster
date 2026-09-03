@@ -83,6 +83,8 @@ Revisión rotor/controles: Thunder Shell v4 separa la turbina en `thunder_volume
 
 Ambientación visual: `thunder_room_cabinet_v1.png` aporta la sala nocturna y la consola de nogal con vinilos como capa separada. El estéreo y sus controles reales permanecen encima, escalados juntos al 90%, para que el aparato esté apoyado en el mueble sin convertir la interfaz en una sola imagen sin interacción.
 
+Pantalla informativa: el display del estéreo conserva el ecualizador y ahora presenta título, artista/fuente, volumen multimedia real, boost seleccionado y SAFE/LIMIT. Sin sesión activa muestra un estado breve. La interfaz reserva `adBannerSlot` debajo de los controles; todavía no existe SDK AdMob, consentimiento ni IDs reales. Monetización y Google Sign-In se implementarán después de cerrar el look and feel.
+
 La interfaz actual ya usa el chasis Thunder Deck con perilla, fondo y controles funcionales. Permanecen pendientes el refinamiento adaptativo final, la accesibilidad completa y un visualizador basado en medición de audio autorizada.
 
 ## Arquitectura y archivos importantes
