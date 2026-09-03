@@ -99,8 +99,13 @@ class MainActivity : AppCompatActivity() {
         setupVolumeControls()
         setupGlobalControls()
         setupPlayerControls()
-        globalPercent = getSharedPreferences(GlobalBoostService.PREFS_NAME, MODE_PRIVATE)
-            .getInt(GlobalBoostService.PREF_GLOBAL_PERCENT, 0)
+        val globalPrefs = getSharedPreferences(GlobalBoostService.PREFS_NAME, MODE_PRIVATE)
+        globalPercent = if (GlobalBoostService.isRunning) {
+            globalPrefs.getInt(GlobalBoostService.PREF_GLOBAL_PERCENT, 0)
+        } else {
+            globalPrefs.edit().remove(GlobalBoostService.PREF_GLOBAL_PERCENT).apply()
+            0
+        }
         refreshVolumeUi()
         refreshGlobalUi()
         refreshPlayerUi()

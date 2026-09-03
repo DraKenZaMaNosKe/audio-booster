@@ -20,6 +20,7 @@ class GlobalBoostService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action) {
             ACTION_STOP -> {
+                isRunning = false
                 stopSelf()
                 return START_NOT_STICKY
             }
@@ -27,11 +28,13 @@ class GlobalBoostService : Service() {
                 val gainDb = intent.getFloatExtra(EXTRA_GAIN_DB, 0f)
                 startForeground(NOTIFICATION_ID, notification(gainDb))
                 if (!controller.start() || !controller.setGainDb(gainDb)) {
+                    isRunning = false
                     sendBroadcast(Intent(ACTION_STATE).setPackage(packageName)
                         .putExtra(EXTRA_AVAILABLE, false))
                     stopSelf()
                     return START_NOT_STICKY
                 }
+                isRunning = true
                 sendBroadcast(Intent(ACTION_STATE).setPackage(packageName)
                     .putExtra(EXTRA_AVAILABLE, true)
                     .putExtra(EXTRA_GAIN_DB, gainDb))
@@ -45,6 +48,7 @@ class GlobalBoostService : Service() {
 
     override fun onDestroy() {
         controller.release()
+        isRunning = false
         getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().remove(PREF_GLOBAL_PERCENT).apply()
         super.onDestroy()
     }
@@ -75,6 +79,9 @@ class GlobalBoostService : Service() {
         const val EXTRA_AVAILABLE = "available"
         const val PREFS_NAME = "audio_booster_state"
         const val PREF_GLOBAL_PERCENT = "global_percent"
+        @Volatile
+        var isRunning: Boolean = false
+            private set
         private const val CHANNEL_ID = "global_boost"
         private const val NOTIFICATION_ID = 4101
     }

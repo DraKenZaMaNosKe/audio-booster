@@ -38,6 +38,8 @@ Aplicación Android para controlar el volumen multimedia normal y ofrecer amplif
 
 Dispositivo probado: Samsung SM-A155M, serial usado `RF8X903KZ3K`.
 
+QA Thunder Shell v3 (2026-09-02): render 1080×2340 aprobado. Arranque fresco reconciliado en `OFF`; preset 150% confirmó servicio foreground, `DynamicsProcessing` global y +3.521825 dB. Capturas en `docs/qa/2026-09-02-samsung-thunder-shell-v3/`. Falta repetir controles/metadatos con Spotify reproduciendo una sesión activa.
+
 - Instalación, arranque y build aprobados.
 - El usuario confirmó de forma auditiva que el incremento funciona y que la calidad percibida es muy buena.
 - Logs confirmaron `Global DynamicsProcessing enabled; channels=2` y ganancia global +6 dB.
@@ -111,7 +113,7 @@ Deuda conocida: AGP 8.5.2 sólo declara compatibilidad probada hasta SDK 34. Se 
 - `testDebugUnitTest assembleDebug`: aprobado repetidamente, 40 tareas.
 - `lintDebug`: llega a `lintAnalyzeDebug` y queda detenido durante minutos; fue cancelado y sigue pendiente.
 - El uso de efectos insert globales sobre sesión 0 está obsoleto y depende del OEM. Mantener siempre fallback local y matriz real de dispositivos.
-- El estado guardado podría quedar obsoleto si Android mata abruptamente todo el proceso/servicio; mejorar con reconciliación viva del servicio.
+- El estado guardado se reconcilia con el efecto activo de `GlobalBoostService` al crear la actividad; `isRunning` sólo se confirma tras aplicar el efecto y se limpia al apagar o fallar. Falta cubrir casos OEM extremos donde el sistema reconstruya componentes en secuencias inusuales.
 - Falta accesibilidad completa de la perilla mediante teclado/acciones incrementales.
 - Falta EQ real, medición de audio controlada, iconografía vectorial definitiva y refinamiento final del acabado Thunder Run.
 - No afirmar compatibilidad universal ni mediciones acústicas que aún no existen.
@@ -154,11 +156,11 @@ Deuda conocida: AGP 8.5.2 sólo declara compatibilidad probada hasta SDK 34. Se 
 
 Thunder Shell v3 ya aproxima el material y profundidad del concepto con una carcasa raster detallada, conservando controles reales. La evidencia Huawei está en `docs/qa/2026-09-02-thunder-shell-v3/`.
 
-El siguiente incremento debe ser **refinamiento adaptativo y QA funcional Samsung con Spotify activo**:
+El siguiente incremento debe ser **QA funcional Samsung con Spotify activo y adaptación proporcional**:
 
-1. Revisar tamaños/contraste en Huawei y Samsung desbloqueado.
-2. Validar anterior, play/pausa, siguiente y metadatos con Spotify reproduciendo.
-3. Confirmar visualmente SAFE y medir/registrar el efecto 100/150/200% en Samsung.
+1. Validar anterior, play/pausa, siguiente y metadatos con Spotify reproduciendo.
+2. Convertir la calibración rígida 360dp/9:16 en constraints proporcionales sin perder alineación con el asset.
+3. Medir clipping con una señal controlada en 100/150/200%; la activación técnica ya está confirmada.
 4. Corregir accesibilidad de la perilla y botones.
 5. Diseñar el EQ real por separado; no habilitarlo hasta comprobar procesamiento.
 

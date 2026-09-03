@@ -112,3 +112,15 @@ Pendiente:
 - `uiautomator` confirmó límites táctiles. La palanca roja 200% abrió correctamente la advertencia auditiva.
 - `testDebugUnitTest assembleDebug`: **BUILD SUCCESSFUL** (40 tareas). Instalación Huawei: `Success`; sin excepción fatal observada.
 - Comparación y evidencia: `docs/qa/2026-09-02-thunder-shell-v3/`.
+
+## 2026-09-02 — QA Samsung y reconciliación de estado
+
+- Samsung SM-A155M (`RF8X903KZ3K`), 1080×2340, densidad 450: instalación `Success`, actividad principal reanudada y Thunder Shell v3 renderizado completo.
+- La pantalla alta muestra el estéreo, bandeja local y ganancias sin recortar controles; los límites de `uiautomator` confirmaron perilla, transporte, multimedia y palancas.
+- Se detectó un estado visual obsoleto de 136% después de reinstalar: la preferencia persistía aunque `GlobalBoostService` ya no existía. Se corrigió reconciliando la preferencia con `GlobalBoostService.isRunning` dentro del mismo proceso; la bandera sólo queda activa después de aplicar correctamente el efecto y vuelve a falso al apagar o fallar.
+- Regresión verificada: después de reinstalar/forzar cierre, la UI inició en `OFF` y no había `GlobalBoostService` activo.
+- Activación real 150%: UI `150%`, `DynamicsProcessing enabled; channels=2`, ganancia `3.521825 dB`, servicio foreground activo y SAFE activo.
+- 100% liberó previamente `DynamicsProcessing`; 200% también se verificó con +6 dB durante la exploración inicial.
+- El acceso de notificaciones está concedido a `MediaObserverService`. Spotify figura como último receptor multimedia, pero no existía una sesión activa para probar metadatos/transporte en este pase.
+- `testDebugUnitTest assembleDebug`: **BUILD SUCCESSFUL** (40 tareas). Sin `FATAL EXCEPTION` observada.
+- Evidencia: `docs/qa/2026-09-02-samsung-thunder-shell-v3/`.
