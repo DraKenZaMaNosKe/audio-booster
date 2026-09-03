@@ -4,11 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.RectF
-import android.graphics.SweepGradient
-import android.graphics.Matrix
 import android.util.AttributeSet
-import android.animation.ValueAnimator
 import android.view.MotionEvent
 import android.view.View
 import kotlin.math.atan2
@@ -27,18 +23,7 @@ class BoostDialView @JvmOverloads constructor(
         }
 
     var onPercentChanged: ((Int) -> Unit)? = null
-    private var pulse = 0f
-
-    private val trackPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.argb(100, 113, 101, 170)
-        style = Paint.Style.STROKE
-        strokeCap = Paint.Cap.ROUND
-    }
-    private val progressPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.rgb(72, 224, 255)
-        style = Paint.Style.STROKE
-        strokeCap = Paint.Cap.ROUND
-    }
+    var onPercentPreview: ((Int) -> Unit)? = null
     private val valuePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.WHITE
         textAlign = Paint.Align.CENTER
@@ -57,30 +42,8 @@ class BoostDialView @JvmOverloads constructor(
         val size = min(width, height).toFloat()
         val centerX = width / 2f
         val centerY = height / 2f
-        val radius = size * 0.34f
-        val stroke = size * 0.055f
-        trackPaint.strokeWidth = stroke
-        progressPaint.strokeWidth = stroke
-        val oval = RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius)
-
-        progressPaint.shader = SweepGradient(
-            centerX,
-            centerY,
-            intArrayOf(
-                Color.rgb(45, 226, 255),
-                Color.rgb(65, 120, 255),
-                Color.rgb(157, 79, 255),
-                Color.rgb(255, 142, 45),
-                Color.rgb(255, 48, 68),
-                Color.rgb(255, 48, 68)
-            ),
-            floatArrayOf(0f, .22f, .40f, .59f, .75f, 1f)
-        ).apply { setLocalMatrix(Matrix().apply { setRotate(135f, centerX, centerY) }) }
-
-        canvas.drawArc(oval, 135f, 270f, false, trackPaint)
-        canvas.drawArc(oval, 135f, 270f * percent / 200f, false, progressPaint)
-
         valuePaint.textSize = size * 0.12f
+        valuePaint.setShadowLayer(size * .025f, 0f, size * .01f, Color.BLACK)
         canvas.drawText("$percent%", centerX, centerY + size * 0.04f, valuePaint)
     }
 
@@ -95,6 +58,7 @@ class BoostDialView @JvmOverloads constructor(
         val clockwise = (rawAngle - 135f + 360f) % 360f
         val bounded = if (clockwise > 315f) 0f else clockwise.coerceAtMost(270f)
         percent = (bounded / 270f * 200f).toInt()
+        onPercentPreview?.invoke(percent)
         if (event.action == MotionEvent.ACTION_UP) {
             onPercentChanged?.invoke(percent)
             performClick()
@@ -102,20 +66,8 @@ class BoostDialView @JvmOverloads constructor(
         return true
     }
 
-    private fun pulseFeedback() {
-        ValueAnimator.ofFloat(0f, 1f, 0f).apply {
-            duration = 420
-            addUpdateListener {
-                pulse = it.animatedValue as Float
-                invalidate()
-            }
-            start()
-        }
-    }
-
     override fun performClick(): Boolean {
         super.performClick()
-        pulseFeedback()
         return true
     }
 }

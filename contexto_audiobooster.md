@@ -79,6 +79,8 @@ Thunder Deck ya es una interfaz Android real, no una imagen con zonas táctiles 
 
 Revisión visual 2026-09-02: después de Thunder Run v2 se confirmó que faltaban imágenes/materiales realistas. **Thunder Shell v3** integra una carcasa raster original con torres, malla, conos, metal, tornillos, display, perilla LED y palancas. Los controles Android reales están alineados encima; la imagen no contiene zonas funcionales por sí sola.
 
+Revisión rotor/controles: Thunder Shell v4 separa la turbina en `thunder_volume_rotor_v1.png`. El sprite gira 0–540° con el gesto/preset; la cavidad y el aro LED permanecen fijos. SAFE cabe en su disco, el acceso multimedia forma parte del panel físico y los controles inferiores usan metal propio en lugar del morado predeterminado.
+
 La interfaz actual ya usa el chasis Thunder Deck con perilla, fondo y controles funcionales. Permanecen pendientes el refinamiento adaptativo final, la accesibilidad completa y un visualizador basado en medición de audio autorizada.
 
 ## Arquitectura y archivos importantes
@@ -92,7 +94,10 @@ La interfaz actual ya usa el chasis Thunder Deck con perilla, fondo y controles 
 - `BoostDialView.kt`: perilla interactiva con progresión térmica.
 - `app/src/main/res/layout/activity_main.xml`: chasis Thunder Deck funcional y desplazable.
 - `app/src/main/res/drawable-nodpi/thunder_run_stereo_shell_v3.png`: carcasa visual original del estéreo.
+- `app/src/main/res/drawable-nodpi/thunder_run_stereo_shell_v4.png`: carcasa sin rotor para animación independiente.
+- `app/src/main/res/drawable-nodpi/thunder_volume_rotor_v1.png`: sprite transparente y rotatorio de la perilla.
 - `docs/design_review/THUNDER_SHELL_V3_ASSET.md`: prompt, procedencia y reglas de integración del asset.
+- `docs/design_review/THUNDER_ROTOR_V1_ASSET.md`: prompts y contrato de animación del rotor.
 - `docs/PRODUCT_REQUIREMENTS.md`: requisitos de producto.
 - `docs/MONETIZATION_PLAN.md`: estrategia de anuncios/Premium aún no implementada.
 - `docs/PROMPT_MAESTRO_APP_ANDROID.md`: aprendizajes para futuros prompts a Kimi/OpenClaw.
@@ -154,7 +159,7 @@ Deuda conocida: AGP 8.5.2 sólo declara compatibilidad probada hasta SDK 34. Se 
 
 ## Siguiente paso exacto
 
-Thunder Shell v3 ya aproxima el material y profundidad del concepto con una carcasa raster detallada, conservando controles reales. La evidencia Huawei está en `docs/qa/2026-09-02-thunder-shell-v3/`.
+Thunder Shell v4 ya usa rotor independiente, controles metálicos y botón multimedia integrado. Evidencia Samsung en `docs/qa/2026-09-02-rotor-and-controls/`.
 
 El siguiente incremento debe ser **QA funcional Samsung con Spotify activo y adaptación proporcional**:
 

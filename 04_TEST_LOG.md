@@ -124,3 +124,14 @@ Pendiente:
 - El acceso de notificaciones está concedido a `MediaObserverService`. Spotify figura como último receptor multimedia, pero no existía una sesión activa para probar metadatos/transporte en este pase.
 - `testDebugUnitTest assembleDebug`: **BUILD SUCCESSFUL** (40 tareas). Sin `FATAL EXCEPTION` observada.
 - Evidencia: `docs/qa/2026-09-02-samsung-thunder-shell-v3/`.
+
+## 2026-09-02 — Rotor animado y controles metálicos
+
+- Se corrigió la silueta fantasma de la perilla separando el asset en carcasa v4 sin rotor y sprite PNG transparente.
+- `knobSprite` rota realmente según la previsualización táctil 0–200% y anima al seleccionar un preset; el aro LED y el chasis no giran.
+- Se eliminó el arco gráfico superpuesto de `BoostDialView`; mantiene entrada táctil, porcentaje y accesibilidad.
+- SAFE se redujo y centró dentro de su disco. El acceso multimedia ahora es un botón metálico cian integrado en el control circular izquierdo del estéreo.
+- Botones de archivo, reproducción local y ganancias sustituyeron el tinte morado Material por selectores metálicos propios con respuesta presionada.
+- Samsung: capturas 0/100% y grabación de la rotación guardadas. El rotor cambió de ángulo de forma centrada, sin crash observado.
+- `testDebugUnitTest assembleDebug`: **BUILD SUCCESSFUL** (40 tareas).
+- Evidencia: `docs/qa/2026-09-02-rotor-and-controls/`.

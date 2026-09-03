@@ -16,6 +16,7 @@ import android.provider.Settings
 import android.util.Log
 import android.widget.Button
 import android.widget.SeekBar
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -49,6 +50,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var seekVolume: SeekBar
     private lateinit var btnPlayPause: Button
     private lateinit var boostDial: BoostDialView
+    private lateinit var knobSprite: ImageView
     private lateinit var thunderEqualizer: ThunderEqualizerView
     private lateinit var tvSafeLimiter: TextView
 
@@ -121,8 +123,18 @@ class MainActivity : AppCompatActivity() {
         btnPlayPause = findViewById(R.id.btnPlayPause)
         tvSafeLimiter = findViewById(R.id.tvSafeLimiter)
         boostDial = findViewById(R.id.boostDial)
+        knobSprite = findViewById(R.id.knobSprite)
         thunderEqualizer = findViewById(R.id.thunderEqualizer)
+        listOf(
+            R.id.btnMediaAccess,
+            R.id.btnSelectAudio,
+            R.id.btnPlayPause,
+            R.id.btnGainOff,
+            R.id.btnGain3,
+            R.id.btnGain6
+        ).forEach { findViewById<Button>(it).backgroundTintList = null }
         boostDial.onPercentChanged = ::applyGlobalPreset
+        boostDial.onPercentPreview = { updateKnobRotation(it, animate = false) }
         findViewById<Button>(R.id.btnMediaAccess).setOnClickListener {
             startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
         }
@@ -186,7 +198,10 @@ class MainActivity : AppCompatActivity() {
                     globalWarningAccepted = true
                     applyGlobalPreset(percent)
                 }
-                .setNegativeButton(R.string.cancel_label) { _, _ -> boostDial.percent = globalPercent }
+                .setNegativeButton(R.string.cancel_label) { _, _ ->
+                    boostDial.percent = globalPercent
+                    updateKnobRotation(globalPercent, animate = true)
+                }
                 .show()
             return
         }
@@ -210,6 +225,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshGlobalUi() {
         boostDial.percent = globalPercent
+        updateKnobRotation(globalPercent, animate = true)
         thunderEqualizer.intensity = globalPercent
         val limiterDescription = getString(
             if (globalPercent > 100) R.string.safe_limiter_active else R.string.safe_limiter_idle
@@ -220,6 +236,15 @@ class MainActivity : AppCompatActivity() {
         tvGlobalState.contentDescription = if (globalPercent > 100) {
             getString(R.string.global_state_format, globalPercent)
         } else getString(R.string.global_state_off)
+    }
+
+    private fun updateKnobRotation(percent: Int, animate: Boolean) {
+        val target = percent.coerceIn(0, 200) * 2.7f
+        if (animate) knobSprite.animate().rotation(target).setDuration(420L).start()
+        else {
+            knobSprite.animate().cancel()
+            knobSprite.rotation = target
+        }
     }
 
     private fun createPlayer() {
