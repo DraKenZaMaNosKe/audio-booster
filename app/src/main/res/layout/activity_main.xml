@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="#05070B">
+
+    <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+        android:contentDescription="@null" android:importantForAccessibility="no"
+        android:scaleType="centerCrop" android:src="@drawable/thunder_room_cabinet_v1" />
+
+<ScrollView
     android:id="@+id/mainScroll" android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#05070B" android:fillViewport="true">
+    android:background="@android:color/transparent" android:fillViewport="true">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:gravity="center_horizontal" android:orientation="vertical">
 
-        <FrameLayout android:layout_width="match_parent" android:layout_height="640dp">
+        <FrameLayout android:layout_width="360dp" android:layout_height="640dp"
+            android:layout_marginTop="20dp" android:scaleX="0.90" android:scaleY="0.90">
             <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
                 android:contentDescription="@null" android:importantForAccessibility="no"
                 android:scaleType="fitXY" android:src="@drawable/thunder_run_stereo_shell_v4" />
@@ -135,3 +144,4 @@
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
+</FrameLayout>

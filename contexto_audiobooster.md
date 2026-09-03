@@ -81,6 +81,8 @@ Revisión visual 2026-09-02: después de Thunder Run v2 se confirmó que faltaba
 
 Revisión rotor/controles: Thunder Shell v4 separa la turbina en `thunder_volume_rotor_v1.png`. El sprite gira 0–540° con el gesto/preset; la cavidad y el aro LED permanecen fijos. SAFE cabe en su disco, el acceso multimedia forma parte del panel físico y los controles inferiores usan metal propio en lugar del morado predeterminado.
 
+Ambientación visual: `thunder_room_cabinet_v1.png` aporta la sala nocturna y la consola de nogal con vinilos como capa separada. El estéreo y sus controles reales permanecen encima, escalados juntos al 90%, para que el aparato esté apoyado en el mueble sin convertir la interfaz en una sola imagen sin interacción.
+
 La interfaz actual ya usa el chasis Thunder Deck con perilla, fondo y controles funcionales. Permanecen pendientes el refinamiento adaptativo final, la accesibilidad completa y un visualizador basado en medición de audio autorizada.
 
 ## Arquitectura y archivos importantes

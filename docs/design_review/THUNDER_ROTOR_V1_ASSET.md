@@ -22,3 +22,11 @@ Rotor:
 ## Animación
 
 `BoostDialView` traduce el arco táctil 0–200% y envía previsualización continua. `MainActivity` rota `knobSprite` de 0° a 540° durante el gesto y anima 420 ms al aplicar presets. El porcentaje es texto separado; ya no se dibuja un arco opaco sobre la perilla.
+
+## Ambiente Thunder Room v1
+
+- Recurso: `app/src/main/res/drawable-nodpi/thunder_room_cabinet_v1.png`.
+- Generador: ImageGen integrado de Codex.
+- Uso: capa independiente detrás del estéreo y de todos los controles Android reales.
+
+Prompt final: crear solamente el interior y el mueble de la referencia, sin estéreo ni controles: sala oscura al atardecer, ciudad por la ventana izquierda, cortinas, cuadro abstracto, lámpara cálida, plantas y consola de nogal oscuro con superficie horizontal, discos de vinilo, libros y cajones. Composición vertical 9:16, centro despejado, iluminación azul de anochecer combinada con ámbar y reflejos cian/magenta. Sin personas, logos, palabras, números ni marcas de agua.

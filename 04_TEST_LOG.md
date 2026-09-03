@@ -135,3 +135,11 @@ Pendiente:
 - Samsung: capturas 0/100% y grabación de la rotación guardadas. El rotor cambió de ángulo de forma centrada, sin crash observado.
 - `testDebugUnitTest assembleDebug`: **BUILD SUCCESSFUL** (40 tareas).
 - Evidencia: `docs/qa/2026-09-02-rotor-and-controls/`.
+
+## 2026-09-02 — Ambiente, mesa y gabinete
+
+- Se añadió `thunder_room_cabinet_v1.png` como fondo independiente 9:16.
+- El estéreo ahora está situado visualmente sobre una consola de nogal con vinilos y objetos de audio; detrás aparecen ventana al atardecer, cortinas, cuadro, lámpara y plantas.
+- La carcasa interactiva se redujo al 90% conservando sus vistas Android y zonas táctiles.
+- Samsung `RF8X903KZ3K`: instalación correcta y captura `docs/qa/2026-09-02-rotor-and-controls/samsung_room_cabinet_v1.png`.
+- Compilación: `testDebugUnitTest assembleDebug` correcta (40 tareas).
