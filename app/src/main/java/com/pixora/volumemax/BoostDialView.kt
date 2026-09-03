@@ -5,8 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
-import android.graphics.RadialGradient
-import android.graphics.Shader
 import android.graphics.SweepGradient
 import android.graphics.Matrix
 import android.util.AttributeSet
@@ -41,17 +39,11 @@ class BoostDialView @JvmOverloads constructor(
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
     }
-    private val knobPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.argb(235, 19, 16, 47)
-        style = Paint.Style.FILL
-        setShadowLayer(28f, 0f, 8f, Color.argb(180, 126, 74, 255))
-    }
     private val valuePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.WHITE
         textAlign = Paint.Align.CENTER
         typeface = android.graphics.Typeface.DEFAULT_BOLD
     }
-    private val detailPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { strokeWidth = 3f }
 
     init {
         setLayerType(LAYER_TYPE_SOFTWARE, null)
@@ -71,9 +63,6 @@ class BoostDialView @JvmOverloads constructor(
         progressPaint.strokeWidth = stroke
         val oval = RectF(centerX - radius, centerY - radius, centerX + radius, centerY + radius)
 
-        val heat = percent / 200f
-        val heatColor = Color.HSVToColor(floatArrayOf(195f * (1f - heat), 0.9f, 1f))
-        knobPaint.setShadowLayer(22f + pulse * 18f, 0f, 5f, heatColor)
         progressPaint.shader = SweepGradient(
             centerX,
             centerY,
@@ -88,31 +77,8 @@ class BoostDialView @JvmOverloads constructor(
             floatArrayOf(0f, .22f, .40f, .59f, .75f, 1f)
         ).apply { setLocalMatrix(Matrix().apply { setRotate(135f, centerX, centerY) }) }
 
-        knobPaint.shader = RadialGradient(centerX - radius * .18f, centerY - radius * .18f, radius,
-            intArrayOf(Color.rgb(112, 118, 128), Color.rgb(42, 45, 54), Color.rgb(8, 9, 13)), null, Shader.TileMode.CLAMP)
-        canvas.drawCircle(centerX, centerY, radius * 0.78f, knobPaint)
-        knobPaint.shader = null
         canvas.drawArc(oval, 135f, 270f, false, trackPaint)
         canvas.drawArc(oval, 135f, 270f * percent / 200f, false, progressPaint)
-
-        detailPaint.color = Color.argb(180, 190, 196, 207)
-        repeat(12) { index ->
-            val angle = Math.toRadians((index * 30).toDouble())
-            val inner = radius * .25f
-            val outer = radius * .62f
-            canvas.drawLine(
-                centerX + kotlin.math.cos(angle).toFloat() * inner,
-                centerY + kotlin.math.sin(angle).toFloat() * inner,
-                centerX + kotlin.math.cos(angle).toFloat() * outer,
-                centerY + kotlin.math.sin(angle).toFloat() * outer,
-                detailPaint
-            )
-        }
-        detailPaint.style = Paint.Style.STROKE
-        detailPaint.strokeWidth = size * .015f
-        detailPaint.color = heatColor
-        canvas.drawCircle(centerX, centerY, radius * .66f, detailPaint)
-        detailPaint.style = Paint.Style.FILL
 
         valuePaint.textSize = size * 0.12f
         canvas.drawText("$percent%", centerX, centerY + size * 0.04f, valuePaint)

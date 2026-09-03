@@ -75,7 +75,7 @@ Thunder Deck ya es una interfaz Android real, no una imagen con zonas táctiles 
 - `SAFE`: estado verdadero del limitador.
 - `EQ`: panel real cuando el procesamiento esté conectado.
 
-Revisión visual 2026-09-02: la primera implementación seguía pareciendo un formulario y tenía demasiado texto. Se sustituyó por **Thunder Run v2**, más fiel al concepto aprobado: torres completas, display con ecualizador visual, perilla metálica central, controles por símbolos y palancas de color. Los párrafos se retiraron de la superficie principal; las explicaciones permanecen en accesibilidad, advertencias y documentación.
+Revisión visual 2026-09-02: después de Thunder Run v2 se confirmó que faltaban imágenes/materiales realistas. **Thunder Shell v3** integra una carcasa raster original con torres, malla, conos, metal, tornillos, display, perilla LED y palancas. Los controles Android reales están alineados encima; la imagen no contiene zonas funcionales por sí sola.
 
 La interfaz actual ya usa el chasis Thunder Deck con perilla, fondo y controles funcionales. Permanecen pendientes el refinamiento adaptativo final, la accesibilidad completa y un visualizador basado en medición de audio autorizada.
 
@@ -89,7 +89,8 @@ La interfaz actual ya usa el chasis Thunder Deck con perilla, fondo y controles 
 - `MediaObserverService.kt`: metadatos de notificaciones multimedia.
 - `BoostDialView.kt`: perilla interactiva con progresión térmica.
 - `app/src/main/res/layout/activity_main.xml`: chasis Thunder Deck funcional y desplazable.
-- `ThunderSpeakerView.kt`: altavoces visuales cuya iluminación representa la potencia seleccionada, sin capturar audio.
+- `app/src/main/res/drawable-nodpi/thunder_run_stereo_shell_v3.png`: carcasa visual original del estéreo.
+- `docs/design_review/THUNDER_SHELL_V3_ASSET.md`: prompt, procedencia y reglas de integración del asset.
 - `docs/PRODUCT_REQUIREMENTS.md`: requisitos de producto.
 - `docs/MONETIZATION_PLAN.md`: estrategia de anuncios/Premium aún no implementada.
 - `docs/PROMPT_MAESTRO_APP_ANDROID.md`: aprendizajes para futuros prompts a Kimi/OpenClaw.
@@ -151,7 +152,7 @@ Deuda conocida: AGP 8.5.2 sólo declara compatibilidad probada hasta SDK 34. Se 
 
 ## Siguiente paso exacto
 
-Thunder Run v2 ya aproxima la composición de estéreo con texto mínimo y conserva las funciones reales. La evidencia Huawei está en `docs/qa/2026-09-02-thunder-run-v2/`.
+Thunder Shell v3 ya aproxima el material y profundidad del concepto con una carcasa raster detallada, conservando controles reales. La evidencia Huawei está en `docs/qa/2026-09-02-thunder-shell-v3/`.
 
 El siguiente incremento debe ser **refinamiento adaptativo y QA funcional Samsung con Spotify activo**:
 

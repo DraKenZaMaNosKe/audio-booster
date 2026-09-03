@@ -102,3 +102,13 @@ Pendiente:
 - El visualizador de barras y la iluminación de bocinas responden al nivel seleccionado, pero son respuesta visual, no medición de la señal de audio.
 - `testDebugUnitTest assembleDebug`: **BUILD SUCCESSFUL** (40 tareas). APK instalada en Huawei y pantalla principal inspeccionada sin crash observado.
 - Evidencia: `docs/qa/2026-09-02-thunder-run-v2/`.
+
+## 2026-09-02 — Thunder Shell v3 con piezas raster
+
+- Se tomó una captura nueva del APK y se comparó con el concepto 05. El faltante principal era material: los paneles seguían siendo geometría plana sin texturas, tornillos, malla ni profundidad.
+- Se generó una carcasa original anime-realista 9:16 mediante ImageGen: dos torres, pantalla hundida, metal grafito, tornillería, conos con malla, perilla LED y tres palancas.
+- El asset quedó versionado en `drawable-nodpi/thunder_run_stereo_shell_v3.png`; prompt/procedencia en `docs/design_review/THUNDER_SHELL_V3_ASSET.md`.
+- La carcasa es visual. Perilla, anterior/siguiente, acceso multimedia, play/pausa, SAFE y palancas 100/150/200 continúan siendo controles Android superpuestos.
+- `uiautomator` confirmó límites táctiles. La palanca roja 200% abrió correctamente la advertencia auditiva.
+- `testDebugUnitTest assembleDebug`: **BUILD SUCCESSFUL** (40 tareas). Instalación Huawei: `Success`; sin excepción fatal observada.
+- Comparación y evidencia: `docs/qa/2026-09-02-thunder-shell-v3/`.

@@ -49,8 +49,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var seekVolume: SeekBar
     private lateinit var btnPlayPause: Button
     private lateinit var boostDial: BoostDialView
-    private lateinit var speakerLeft: ThunderSpeakerView
-    private lateinit var speakerRight: ThunderSpeakerView
     private lateinit var thunderEqualizer: ThunderEqualizerView
     private lateinit var tvSafeLimiter: TextView
 
@@ -118,8 +116,6 @@ class MainActivity : AppCompatActivity() {
         btnPlayPause = findViewById(R.id.btnPlayPause)
         tvSafeLimiter = findViewById(R.id.tvSafeLimiter)
         boostDial = findViewById(R.id.boostDial)
-        speakerLeft = findViewById(R.id.speakerLeft)
-        speakerRight = findViewById(R.id.speakerRight)
         thunderEqualizer = findViewById(R.id.thunderEqualizer)
         boostDial.onPercentChanged = ::applyGlobalPreset
         findViewById<Button>(R.id.btnMediaAccess).setOnClickListener {
@@ -209,8 +205,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshGlobalUi() {
         boostDial.percent = globalPercent
-        speakerLeft.intensity = globalPercent
-        speakerRight.intensity = globalPercent
         thunderEqualizer.intensity = globalPercent
         val limiterDescription = getString(
             if (globalPercent > 100) R.string.safe_limiter_active else R.string.safe_limiter_idle
