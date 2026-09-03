@@ -75,6 +75,8 @@ Thunder Deck ya es una interfaz Android real, no una imagen con zonas táctiles 
 - `SAFE`: estado verdadero del limitador.
 - `EQ`: panel real cuando el procesamiento esté conectado.
 
+Revisión visual 2026-09-02: la primera implementación seguía pareciendo un formulario y tenía demasiado texto. Se sustituyó por **Thunder Run v2**, más fiel al concepto aprobado: torres completas, display con ecualizador visual, perilla metálica central, controles por símbolos y palancas de color. Los párrafos se retiraron de la superficie principal; las explicaciones permanecen en accesibilidad, advertencias y documentación.
+
 La interfaz actual ya usa el chasis Thunder Deck con perilla, fondo y controles funcionales. Permanecen pendientes el refinamiento adaptativo final, la accesibilidad completa y un visualizador basado en medición de audio autorizada.
 
 ## Arquitectura y archivos importantes
@@ -110,7 +112,7 @@ Deuda conocida: AGP 8.5.2 sólo declara compatibilidad probada hasta SDK 34. Se 
 - El uso de efectos insert globales sobre sesión 0 está obsoleto y depende del OEM. Mantener siempre fallback local y matriz real de dispositivos.
 - El estado guardado podría quedar obsoleto si Android mata abruptamente todo el proceso/servicio; mejorar con reconciliación viva del servicio.
 - Falta accesibilidad completa de la perilla mediante teclado/acciones incrementales.
-- Falta EQ real, medición de audio controlada y refinamiento final del acabado Thunder Deck.
+- Falta EQ real, medición de audio controlada, iconografía vectorial definitiva y refinamiento final del acabado Thunder Run.
 - No afirmar compatibilidad universal ni mediciones acústicas que aún no existen.
 
 ## Monetización planeada, no implementada
@@ -149,7 +151,7 @@ Deuda conocida: AGP 8.5.2 sólo declara compatibilidad probada hasta SDK 34. Se 
 
 ## Siguiente paso exacto
 
-El chasis Thunder Deck, pantalla multimedia, perilla, controles externos, palancas y SAFE ya están conectados a funciones reales. La evidencia Huawei está en `docs/qa/2026-09-02-thunder-deck/`.
+Thunder Run v2 ya aproxima la composición de estéreo con texto mínimo y conserva las funciones reales. La evidencia Huawei está en `docs/qa/2026-09-02-thunder-run-v2/`.
 
 El siguiente incremento debe ser **refinamiento adaptativo y QA funcional Samsung con Spotify activo**:
 

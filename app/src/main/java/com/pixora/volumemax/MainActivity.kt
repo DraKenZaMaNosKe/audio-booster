@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var boostDial: BoostDialView
     private lateinit var speakerLeft: ThunderSpeakerView
     private lateinit var speakerRight: ThunderSpeakerView
+    private lateinit var thunderEqualizer: ThunderEqualizerView
     private lateinit var tvSafeLimiter: TextView
 
     private var selectedUri: Uri? = null
@@ -119,6 +120,7 @@ class MainActivity : AppCompatActivity() {
         boostDial = findViewById(R.id.boostDial)
         speakerLeft = findViewById(R.id.speakerLeft)
         speakerRight = findViewById(R.id.speakerRight)
+        thunderEqualizer = findViewById(R.id.thunderEqualizer)
         boostDial.onPercentChanged = ::applyGlobalPreset
         findViewById<Button>(R.id.btnMediaAccess).setOnClickListener {
             startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
@@ -209,14 +211,16 @@ class MainActivity : AppCompatActivity() {
         boostDial.percent = globalPercent
         speakerLeft.intensity = globalPercent
         speakerRight.intensity = globalPercent
-        tvSafeLimiter.text = getString(
+        thunderEqualizer.intensity = globalPercent
+        val limiterDescription = getString(
             if (globalPercent > 100) R.string.safe_limiter_active else R.string.safe_limiter_idle
         )
-        tvGlobalState.text = if (globalPercent > 100) {
+        tvSafeLimiter.text = "SAFE"
+        tvSafeLimiter.contentDescription = limiterDescription
+        tvGlobalState.text = if (globalPercent > 100) "$globalPercent%" else "OFF"
+        tvGlobalState.contentDescription = if (globalPercent > 100) {
             getString(R.string.global_state_format, globalPercent)
-        } else {
-            getString(R.string.global_state_off)
-        }
+        } else getString(R.string.global_state_off)
     }
 
     private fun createPlayer() {
@@ -329,7 +333,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refreshPlayerUi() {
-        btnPlayPause.text = getString(if (player.isPlaying) R.string.pause else R.string.play)
+        btnPlayPause.text = if (player.isPlaying) "Ⅱ" else "▶"
+        btnPlayPause.contentDescription = getString(if (player.isPlaying) R.string.pause else R.string.play)
         tvPlayerState.text = getString(
             R.string.player_state_format,
             GainMath.relativePercent(gainDb),

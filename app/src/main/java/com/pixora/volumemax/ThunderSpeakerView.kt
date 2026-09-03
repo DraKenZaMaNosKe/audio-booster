@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RadialGradient
+import android.graphics.RectF
 import android.graphics.Shader
 import android.util.AttributeSet
 import android.view.View
@@ -30,23 +31,36 @@ class ThunderSpeakerView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val cx = width / 2f
-        val radius = min(width, height) * .39f
-        val topY = height * .28f
-        val bottomY = height * .70f
+        val radius = width * .34f
+        val topY = height * .18f
+        val middleY = height * .46f
+        val bottomY = height * .73f
         val heat = intensity / 200f
         val glow = Color.HSVToColor(floatArrayOf(195f * (1f - heat), .85f, 1f))
 
-        paint.shader = RadialGradient(cx, topY, radius, intArrayOf(Color.rgb(70, 75, 90), Color.rgb(18, 20, 29), Color.BLACK), null, Shader.TileMode.CLAMP)
-        canvas.drawCircle(cx, topY, radius * .52f, paint)
-        paint.shader = RadialGradient(cx, bottomY, radius, intArrayOf(Color.rgb(63, 67, 81), Color.rgb(14, 16, 24), Color.BLACK), null, Shader.TileMode.CLAMP)
-        canvas.drawCircle(cx, bottomY, radius, paint)
+        paint.shader = null
+        paint.color = Color.rgb(15, 17, 22)
+        canvas.drawRoundRect(RectF(width * .08f, height * .02f, width * .92f, height * .98f), width * .14f, width * .14f, paint)
+        linePaint.color = Color.argb(210, Color.red(glow), Color.green(glow), Color.blue(glow))
+        linePaint.strokeWidth = 2.5f
+        canvas.drawRoundRect(RectF(width * .10f, height * .025f, width * .90f, height * .975f), width * .12f, width * .12f, linePaint)
+
+        listOf(topY to .48f, middleY to 1f, bottomY to 1f).forEach { (y, scale) ->
+            paint.shader = RadialGradient(cx, y, radius, intArrayOf(Color.rgb(82, 87, 98), Color.rgb(20, 22, 28), Color.BLACK), null, Shader.TileMode.CLAMP)
+            canvas.drawCircle(cx, y, radius * scale, paint)
+            linePaint.color = Color.rgb(92, 98, 112)
+            repeat(3) { canvas.drawCircle(cx, y, radius * scale * (.42f + it * .25f), linePaint) }
+        }
         paint.shader = null
 
         linePaint.color = Color.argb(190, Color.red(glow), Color.green(glow), Color.blue(glow))
         linePaint.setShadowLayer(12f, 0f, 0f, glow)
         canvas.drawCircle(cx, bottomY, radius * .91f, linePaint)
         linePaint.clearShadowLayer()
-        linePaint.color = Color.rgb(88, 91, 105)
-        repeat(4) { canvas.drawCircle(cx, bottomY, radius * (.22f + it * .17f), linePaint) }
+        linePaint.color = Color.rgb(60, 65, 76)
+        repeat(5) { index ->
+            val y = height * (.88f + index * .014f)
+            canvas.drawLine(width * .25f, y, width * .75f, y, linePaint)
+        }
     }
 }

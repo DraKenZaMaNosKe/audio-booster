@@ -32,6 +32,7 @@ Quiero que desarrolles **[NOMBRE/IDEA DE APP]** como proyecto Android mantenible
 - Maneja lifecycle, errores, rotación, segundo plano, process death y cambios externos de estado.
 - Usa permisos mínimos y APIs públicas. Justifica cada permiso contra una función visible.
 - Incluye accesibilidad, textos localizables, estados vacíos/carga/error y seguridad del usuario.
+- Si el concepto aprobado representa un objeto físico, construye primero su silueta y jerarquía. No lo conviertas en un formulario lleno de tarjetas y explicaciones. Minimiza el texto visible y usa iconos, posición, color y respuesta visual, conservando descripciones accesibles y mensajes de seguridad.
 
 ## 4. Calidad obligatoria
 

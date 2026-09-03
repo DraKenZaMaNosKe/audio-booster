@@ -93,3 +93,12 @@ Pendiente:
 - Huawei VNS-L53: instalación `Success`, arranque de `MainActivity`, scroll y selección 200% aprobados; sin `FATAL EXCEPTION` observada. Al no soportar la ruta global, mantiene el estado apagado/fallback de forma segura.
 - Samsung SM-A155M: APK instalada `Success`, pero el dispositivo estaba con pantalla bloqueada y batería al 6%; no se forzó una prueba interactiva adicional.
 - Evidencia de esta iteración: `docs/qa/2026-09-02-thunder-deck/`.
+
+## 2026-09-02 — Thunder Run visual, texto mínimo
+
+- La comparación directa con el concepto 05 mostró exceso de textos, bocinas pequeñas y una composición todavía similar a formulario.
+- Se reconstruyó la jerarquía como estéreo: torres laterales altas con tweeter, dos woofers y ventilas; display superior con barras de color; perilla central metálica; transporte, SAFE, acceso multimedia, EQ y tres palancas compactas.
+- Se retiraron de la vista principal los párrafos explicativos, títulos repetidos y botones con frases. El texto visible queda limitado a marca, estado/porcentaje, metadatos musicales y valores indispensables.
+- El visualizador de barras y la iluminación de bocinas responden al nivel seleccionado, pero son respuesta visual, no medición de la señal de audio.
+- `testDebugUnitTest assembleDebug`: **BUILD SUCCESSFUL** (40 tareas). APK instalada en Huawei y pantalla principal inspeccionada sin crash observado.
+- Evidencia: `docs/qa/2026-09-02-thunder-run-v2/`.
