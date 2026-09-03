@@ -15,10 +15,7 @@ import android.provider.OpenableColumns
 import android.provider.Settings
 import android.util.Log
 import android.widget.Button
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.SeekBar
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -52,6 +49,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var seekVolume: SeekBar
     private lateinit var btnPlayPause: Button
     private lateinit var boostDial: BoostDialView
+    private lateinit var speakerLeft: ThunderSpeakerView
+    private lateinit var speakerRight: ThunderSpeakerView
     private lateinit var tvSafeLimiter: TextView
 
     private var selectedUri: Uri? = null
@@ -97,7 +96,6 @@ class MainActivity : AppCompatActivity() {
         volumeController = VolumeController(this)
         externalMediaControls = ExternalMediaControls(this)
         bindViews()
-        setupSectionMenu()
         createPlayer()
         setupVolumeControls()
         setupGlobalControls()
@@ -107,37 +105,6 @@ class MainActivity : AppCompatActivity() {
         refreshVolumeUi()
         refreshGlobalUi()
         refreshPlayerUi()
-    }
-
-    private fun setupSectionMenu() {
-        val menu = findViewById<Spinner>(R.id.sectionMenu)
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.section_menu_items,
-            R.layout.spinner_selected_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-            menu.adapter = adapter
-        }
-        var initialSelection = true
-        menu.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: android.view.View?, position: Int, id: Long) {
-                if (initialSelection) {
-                    initialSelection = false
-                    return
-                }
-                val target = when (position) {
-                    1 -> findViewById<android.view.View>(R.id.sectionExternal)
-                    2 -> findViewById<android.view.View>(R.id.sectionLocal)
-                    else -> tvGlobalState
-                }
-                findViewById<android.widget.ScrollView>(R.id.mainScroll).post {
-                    findViewById<android.widget.ScrollView>(R.id.mainScroll).smoothScrollTo(0, target.top)
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
-        }
     }
 
     private fun bindViews() {
@@ -150,6 +117,8 @@ class MainActivity : AppCompatActivity() {
         btnPlayPause = findViewById(R.id.btnPlayPause)
         tvSafeLimiter = findViewById(R.id.tvSafeLimiter)
         boostDial = findViewById(R.id.boostDial)
+        speakerLeft = findViewById(R.id.speakerLeft)
+        speakerRight = findViewById(R.id.speakerRight)
         boostDial.onPercentChanged = ::applyGlobalPreset
         findViewById<Button>(R.id.btnMediaAccess).setOnClickListener {
             startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
@@ -238,6 +207,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshGlobalUi() {
         boostDial.percent = globalPercent
+        speakerLeft.intensity = globalPercent
+        speakerRight.intensity = globalPercent
         tvSafeLimiter.text = getString(
             if (globalPercent > 100) R.string.safe_limiter_active else R.string.safe_limiter_idle
         )

@@ -37,7 +37,8 @@
 - [ ] Completar pestaña Ecualizador con controles reales, arte/controles del reproductor y pulido adaptable.
 - [ ] QA auditivo y medición de clipping en Samsung; comprobar fallback en Huawei.
 - [x] Seleccionar dirección artística final: Thunder Deck.
-- [ ] Reconstruir Thunder Deck con componentes Android reales y adaptativos, preservando el motor de audio.
+- [x] Reconstruir Thunder Deck con componentes Android reales y adaptativos, preservando el motor de audio.
+- [ ] Refinar el chasis Thunder Deck en pantallas pequeñas/grandes y completar accesibilidad táctil/lector de pantalla.
 
 ## Fase 3 — Producto y Play Store
 

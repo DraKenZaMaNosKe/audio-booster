@@ -81,3 +81,15 @@ Pendiente:
 - Huawei rechazó correctamente el modo global por API inferior a 28; la app liberó el efecto, detuvo el servicio y mostró el fallback al reproductor local.
 - Sin acceso multimedia ni sesión activa, los controles externos mostraron una explicación y no simularon una acción.
 - Evidencia visual guardada en `docs/qa/2026-09-02-huawei/`.
+
+## 2026-09-02 — Chasis Thunder Deck funcional
+
+- Se reemplazó el formulario transitorio por el chasis responsive Thunder Deck construido con componentes Android reales.
+- La pantalla superior muestra el estado global y los metadatos externos; los controles anterior, play/pausa y siguiente conservan su conexión a `ExternalMediaControls`.
+- La perilla conserva el control táctil 0–200% y el gradiente frío→caliente. Dos altavoces dibujados por código reflejan visualmente la potencia elegida; no afirman capturar el audio.
+- Las palancas visibles 100%, 150% y 200% están conectadas a presets reales. SAFE refleja el limitador y EQ continúa deshabilitado informativamente.
+- El volumen del sistema y el reproductor local permanecen accesibles en la parte inferior mediante desplazamiento.
+- `testDebugUnitTest assembleDebug`: **BUILD SUCCESSFUL** (40 tareas) con APK debug generado.
+- Huawei VNS-L53: instalación `Success`, arranque de `MainActivity`, scroll y selección 200% aprobados; sin `FATAL EXCEPTION` observada. Al no soportar la ruta global, mantiene el estado apagado/fallback de forma segura.
+- Samsung SM-A155M: APK instalada `Success`, pero el dispositivo estaba con pantalla bloqueada y batería al 6%; no se forzó una prueba interactiva adicional.
+- Evidencia de esta iteración: `docs/qa/2026-09-02-thunder-deck/`.

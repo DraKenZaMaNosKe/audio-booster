@@ -66,16 +66,16 @@ Dispositivo: Huawei VNS-L53, serial ADB `G2R4C17516000149`.
 - Diseño seleccionado por el propietario: **05 — Thunder Deck**.
 - Especificación: `docs/design_review/SELECTED_DESIGN.md`.
 
-Thunder Deck será una interfaz Android real, no una imagen con zonas táctiles invisibles:
+Thunder Deck ya es una interfaz Android real, no una imagen con zonas táctiles invisibles:
 
-- Pantalla: canción, artista, aplicación, reproducción y visualizador.
+- Pantalla: estado global y metadatos de reproducción externa disponibles.
 - Perilla turbina: volumen/boost 0–200%, azul → violeta → naranja → rojo.
 - Botones físicos: anterior, play/pausa y siguiente.
 - Palancas reales: presets inicialmente 100%, 150% y 200%.
 - `SAFE`: estado verdadero del limitador.
 - `EQ`: panel real cuando el procesamiento esté conectado.
 
-La interfaz actual sigue siendo transitoria. Ya tiene perilla, fondo y controles funcionales, pero aún debe reconstruirse visualmente como Thunder Deck.
+La interfaz actual ya usa el chasis Thunder Deck con perilla, fondo y controles funcionales. Permanecen pendientes el refinamiento adaptativo final, la accesibilidad completa y un visualizador basado en medición de audio autorizada.
 
 ## Arquitectura y archivos importantes
 
@@ -86,7 +86,8 @@ La interfaz actual sigue siendo transitoria. Ya tiene perilla, fondo y controles
 - `ExternalMediaControls.kt`: transporte real de sesiones externas.
 - `MediaObserverService.kt`: metadatos de notificaciones multimedia.
 - `BoostDialView.kt`: perilla interactiva con progresión térmica.
-- `app/src/main/res/layout/activity_main.xml`: layout transitorio.
+- `app/src/main/res/layout/activity_main.xml`: chasis Thunder Deck funcional y desplazable.
+- `ThunderSpeakerView.kt`: altavoces visuales cuya iluminación representa la potencia seleccionada, sin capturar audio.
 - `docs/PRODUCT_REQUIREMENTS.md`: requisitos de producto.
 - `docs/MONETIZATION_PLAN.md`: estrategia de anuncios/Premium aún no implementada.
 - `docs/PROMPT_MAESTRO_APP_ANDROID.md`: aprendizajes para futuros prompts a Kimi/OpenClaw.
@@ -109,7 +110,7 @@ Deuda conocida: AGP 8.5.2 sólo declara compatibilidad probada hasta SDK 34. Se 
 - El uso de efectos insert globales sobre sesión 0 está obsoleto y depende del OEM. Mantener siempre fallback local y matriz real de dispositivos.
 - El estado guardado podría quedar obsoleto si Android mata abruptamente todo el proceso/servicio; mejorar con reconciliación viva del servicio.
 - Falta accesibilidad completa de la perilla mediante teclado/acciones incrementales.
-- Falta EQ real, visualizador real y acabado completo Thunder Deck.
+- Falta EQ real, medición de audio controlada y refinamiento final del acabado Thunder Deck.
 - No afirmar compatibilidad universal ni mediciones acústicas que aún no existen.
 
 ## Monetización planeada, no implementada
@@ -148,14 +149,14 @@ Deuda conocida: AGP 8.5.2 sólo declara compatibilidad probada hasta SDK 34. Se 
 
 ## Siguiente paso exacto
 
-Reconstruir `activity_main.xml` y los componentes visuales como **Thunder Deck**, preservando IDs/contratos del motor funcional. Hacerlo por incrementos:
+El chasis Thunder Deck, pantalla multimedia, perilla, controles externos, palancas y SAFE ya están conectados a funciones reales. La evidencia Huawei está en `docs/qa/2026-09-02-thunder-deck/`.
 
-1. Chasis responsive + pantalla multimedia real.
-2. Perilla turbina conectada a `applyGlobalPreset`.
-3. Botones físicos conectados a `ExternalMediaControls`.
-4. Tres palancas conectadas a presets reales.
-5. Estado SAFE conectado al servicio/limitador.
-6. EQ global/local real; habilitar el botón sólo después de validar procesamiento.
-7. Capturas y QA en Huawei; repetir Samsung cuando esté disponible.
+El siguiente incremento debe ser **refinamiento adaptativo y QA funcional Samsung con Spotify activo**:
 
-Antes de comenzar, comprobar que el checkout nuevo contiene al menos `bdc4739` y que `git status` está limpio.
+1. Revisar tamaños/contraste en Huawei y Samsung desbloqueado.
+2. Validar anterior, play/pausa, siguiente y metadatos con Spotify reproduciendo.
+3. Confirmar visualmente SAFE y medir/registrar el efecto 100/150/200% en Samsung.
+4. Corregir accesibilidad de la perilla y botones.
+5. Diseñar el EQ real por separado; no habilitarlo hasta comprobar procesamiento.
+
+Antes de comenzar desde otra computadora, actualizar `main` y confirmar que `git status --short --branch` está limpio.

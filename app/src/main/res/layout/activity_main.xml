@@ -1,339 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/mainScroll"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/orbix_audio_background"
+    android:id="@+id/mainScroll" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="@drawable/orbix_audio_background"
     android:fillViewport="true">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textColor="@color/text_primary"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/brand_signature"
-            android:textColor="@color/accent_cyan"
-            android:textSize="13sp" />
-
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/sectionMenu"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="18dp"
-            android:background="@drawable/bg_section_menu"
-            android:contentDescription="@string/section_menu_description"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:popupBackground="@color/surface_dark" />
-
-        <TextView
-            android:id="@+id/tvGlobalState"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:background="@drawable/bg_status_chip"
-            android:padding="10dp"
-            android:text="@string/global_state_off"
-            android:textColor="@color/accent_cyan"
-            android:textSize="19sp"
-            android:textStyle="bold" />
-
-        <com.pixora.volumemax.BoostDialView
-            android:id="@+id/boostDial"
-            android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:layout_marginTop="4dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="@string/global_scope"
-            android:textColor="@color/text_muted"
-            android:textSize="13sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/honest_scope"
-            android:textColor="@color/text_muted"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="@string/volume_title"
-            android:textColor="@color/text_muted"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tvVolumeValue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/current_volume_placeholder"
-            android:textColor="@color/text_primary"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <SeekBar
-            android:id="@+id/seekVolume"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnVolume75"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/quick_75" />
-
-            <Button
-                android:id="@+id/btnVolume100"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                android:text="@string/quick_100" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="12dp">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:gravity="center_vertical" android:orientation="horizontal" android:padding="8dp">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="THUNDER DECK" android:textColor="@color/text_primary"
+                android:textSize="21sp" android:textStyle="bold" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:gravity="end" android:text="AUDIOBOOSTER\nBY PIXORA IA"
+                android:textColor="@color/accent_cyan" android:textSize="10sp" android:textStyle="bold" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/sectionExternal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/now_playing_title"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvExternalTrack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/media_access_needed"
-            android:textColor="@color/text_muted"
-            android:textSize="15sp" />
-
-        <Button
-            android:id="@+id/btnMediaAccess"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/enable_media_access" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnExternalPrev"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:contentDescription="@string/previous_track"
-                android:text="⏮" />
-
-            <Button
-                android:id="@+id/btnExternalPlayPause"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_weight="1"
-                android:contentDescription="@string/play_pause_external"
-                android:text="▶ / Ⅱ" />
-
-            <Button
-                android:id="@+id/btnExternalNext"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:contentDescription="@string/next_track"
-                android:text="⏭" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="@drawable/bg_thunder_chassis" android:orientation="vertical" android:padding="10dp">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:background="@drawable/bg_thunder_display" android:orientation="vertical" android:padding="12dp">
+                <TextView android:id="@+id/tvGlobalState" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:gravity="center" android:text="@string/global_state_off"
+                    android:textColor="@color/accent_cyan" android:textSize="17sp" android:textStyle="bold" />
+                <TextView android:id="@+id/sectionExternal" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:layout_marginTop="5dp" android:gravity="center"
+                    android:text="@string/now_playing_title" android:textColor="@color/text_muted" android:textSize="10sp" />
+                <TextView android:id="@+id/tvExternalTrack" android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:ellipsize="end" android:gravity="center"
+                    android:maxLines="2" android:text="@string/media_access_needed" android:textColor="#B8F8FF"
+                    android:textSize="13sp" />
+            </LinearLayout>
+            <FrameLayout android:layout_width="match_parent" android:layout_height="230dp" android:layout_marginTop="6dp">
+                <com.pixora.volumemax.ThunderSpeakerView android:id="@+id/speakerLeft"
+                    android:layout_width="92dp" android:layout_height="match_parent" android:layout_gravity="start" />
+                <com.pixora.volumemax.ThunderSpeakerView android:id="@+id/speakerRight"
+                    android:layout_width="92dp" android:layout_height="match_parent" android:layout_gravity="end" />
+                <com.pixora.volumemax.BoostDialView android:id="@+id/boostDial"
+                    android:layout_width="230dp" android:layout_height="230dp" android:layout_gravity="center" />
+            </FrameLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
+                android:gravity="center" android:orientation="horizontal">
+                <Button android:id="@+id/btnExternalPrev" android:layout_width="52dp" android:layout_height="44dp"
+                    android:background="@drawable/bg_thunder_button" android:contentDescription="@string/previous_track"
+                    android:minWidth="0dp" android:text="◀◀" android:textColor="@color/text_primary" android:textSize="12sp" />
+                <Button android:id="@+id/btnExternalPlayPause" android:layout_width="66dp" android:layout_height="44dp"
+                    android:layout_marginHorizontal="7dp" android:background="@drawable/bg_thunder_button"
+                    android:contentDescription="@string/play_pause_external" android:minWidth="0dp"
+                    android:text="▶ Ⅱ" android:textColor="@color/accent_cyan" android:textSize="13sp" />
+                <Button android:id="@+id/btnExternalNext" android:layout_width="52dp" android:layout_height="44dp"
+                    android:background="@drawable/bg_thunder_button" android:contentDescription="@string/next_track"
+                    android:minWidth="0dp" android:text="▶▶" android:textColor="@color/text_primary" android:textSize="12sp" />
+                <Button android:id="@+id/btnThunderEq" android:layout_width="66dp" android:layout_height="44dp"
+                    android:layout_marginStart="10dp" android:background="@drawable/bg_thunder_button"
+                    android:minWidth="0dp" android:text="EQ" android:textColor="@color/text_muted" android:textSize="11sp" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" android:gravity="center_vertical" android:orientation="horizontal">
+                <Button android:id="@+id/btnMediaAccess" android:layout_width="0dp" android:layout_height="44dp"
+                    android:layout_weight="1" android:background="@drawable/bg_thunder_button"
+                    android:text="@string/enable_media_access" android:textColor="@color/text_primary" android:textSize="10sp" />
+                <TextView android:id="@+id/tvSafeLimiter" android:layout_width="0dp" android:layout_height="44dp"
+                    android:layout_marginStart="8dp" android:layout_weight="1" android:background="@drawable/bg_thunder_display"
+                    android:gravity="center" android:text="@string/safe_limiter_idle" android:textColor="@color/accent_cyan"
+                    android:textSize="11sp" android:textStyle="bold" />
+            </LinearLayout>
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" android:gravity="center" android:text="POTENCIA DIRECTA"
+                android:textColor="@color/text_primary" android:textSize="11sp" android:textStyle="bold" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" android:orientation="horizontal">
+                <Button android:id="@+id/btnGlobal100" android:layout_width="0dp" android:layout_height="50dp"
+                    android:layout_weight="1" android:text="100%\nNORMAL" android:textSize="11sp" />
+                <Button android:id="@+id/btnGlobal150" android:layout_width="0dp" android:layout_height="50dp"
+                    android:layout_marginHorizontal="6dp" android:layout_weight="1" android:text="150%\nBOOST" android:textSize="11sp" />
+                <Button android:id="@+id/btnGlobalMax" android:layout_width="0dp" android:layout_height="50dp"
+                    android:layout_weight="1" android:text="200%\nTHUNDER" android:textSize="11sp" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:visibility="gone">
+                <Button android:id="@+id/btnGlobalOff" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <Button android:id="@+id/btnGlobal30" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <Button android:id="@+id/btnGlobal60" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <Button android:id="@+id/btnGlobal125" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                <Button android:id="@+id/btnGlobal175" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            </LinearLayout>
+            <TextView android:id="@+id/tvVolumeValue" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" android:text="@string/current_volume_placeholder"
+                android:textColor="@color/text_primary" android:textSize="13sp" android:textStyle="bold" />
+            <SeekBar android:id="@+id/seekVolume" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+                <Button android:id="@+id/btnVolume75" android:layout_width="0dp" android:layout_height="42dp"
+                    android:layout_weight="1" android:background="@drawable/bg_thunder_button"
+                    android:text="@string/quick_75" android:textColor="@color/text_primary" />
+                <Button android:id="@+id/btnVolume100" android:layout_width="0dp" android:layout_height="42dp"
+                    android:layout_marginStart="8dp" android:layout_weight="1" android:background="@drawable/bg_thunder_button"
+                    android:text="@string/quick_100" android:textColor="@color/text_primary" />
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnThunderEq"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/equalizer_pending" />
-
-            <TextView
-                android:id="@+id/tvSafeLimiter"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_status_chip"
-                android:gravity="center"
-                android:padding="12dp"
-                android:text="@string/safe_limiter_idle"
-                android:textColor="@color/accent_cyan"
-                android:textStyle="bold" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" android:background="@drawable/bg_thunder_tray"
+            android:orientation="vertical" android:padding="12dp">
+            <TextView android:id="@+id/sectionLocal" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="@string/player_title" android:textColor="@color/text_primary" android:textSize="16sp" android:textStyle="bold" />
+            <TextView android:id="@+id/tvTrack" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="5dp" android:ellipsize="end" android:maxLines="1"
+                android:text="@string/no_audio_selected" android:textColor="@color/text_muted" android:textSize="12sp" />
+            <TextView android:id="@+id/tvPlayerState" android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="4dp" android:text="@string/player_state_placeholder"
+                android:textColor="@color/accent_cyan" android:textSize="12sp" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" android:orientation="horizontal">
+                <Button android:id="@+id/btnSelectAudio" android:layout_width="0dp" android:layout_height="44dp"
+                    android:layout_weight="1" android:background="@drawable/bg_thunder_button"
+                    android:text="@string/select_audio" android:textColor="@color/text_primary" android:textSize="11sp" />
+                <Button android:id="@+id/btnPlayPause" android:layout_width="0dp" android:layout_height="44dp"
+                    android:layout_marginStart="8dp" android:layout_weight="1" android:background="@drawable/bg_thunder_button"
+                    android:text="@string/play" android:textColor="@color/accent_cyan" android:textSize="11sp" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" android:orientation="horizontal">
+                <Button android:id="@+id/btnGainOff" android:layout_width="0dp" android:layout_height="42dp"
+                    android:layout_weight="1" android:text="@string/gain_off" android:textSize="11sp" />
+                <Button android:id="@+id/btnGain3" android:layout_width="0dp" android:layout_height="42dp"
+                    android:layout_marginHorizontal="6dp" android:layout_weight="1" android:text="@string/gain_3" android:textSize="11sp" />
+                <Button android:id="@+id/btnGain6" android:layout_width="0dp" android:layout_height="42dp"
+                    android:layout_weight="1" android:text="@string/gain_6" android:textSize="11sp" />
+            </LinearLayout>
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:text="@string/global_presets_title"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <Button android:id="@+id/btnGlobalOff" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="@string/silence" />
-            <Button android:id="@+id/btnGlobal30" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_weight="1" android:text="30%" />
-            <Button android:id="@+id/btnGlobal60" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_weight="1" android:text="60%" />
-            <Button android:id="@+id/btnGlobal100" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_weight="1" android:text="100%" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <Button android:id="@+id/btnGlobal125" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="125%" />
-            <Button android:id="@+id/btnGlobal150" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_weight="1" android:text="150%" />
-            <Button android:id="@+id/btnGlobal175" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_weight="1" android:text="175%" />
-            <Button android:id="@+id/btnGlobalMax" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:layout_weight="1" android:text="@string/max_label" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/sectionLocal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/player_title"
-            android:textColor="@color/text_primary"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvTrack"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/no_audio_selected"
-            android:textColor="@color/text_muted"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/tvPlayerState"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/player_state_placeholder"
-            android:textColor="@color/accent_cyan"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnSelectAudio"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/select_audio" />
-
-            <Button
-                android:id="@+id/btnPlayPause"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_weight="1"
-                android:text="@string/play" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/gain_title"
-            android:textColor="@color/text_muted"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnGainOff"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/gain_off" />
-
-            <Button
-                android:id="@+id/btnGain3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:text="@string/gain_3" />
-
-            <Button
-                android:id="@+id/btnGain6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:text="@string/gain_6" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/gain_scope"
-            android:textColor="@color/text_muted"
-            android:textSize="13sp" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" android:gravity="center" android:text="@string/honest_scope"
+            android:textColor="@color/text_muted" android:textSize="11sp" />
     </LinearLayout>
 </ScrollView>
