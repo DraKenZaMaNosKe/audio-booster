@@ -10,3 +10,7 @@ build/
 .cxx
 app/build/
 releases/*.apk.tmp
+releases/*.aab
+*.jks
+*.keystore
+keystore.properties

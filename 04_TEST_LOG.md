@@ -191,5 +191,6 @@ Pendiente:
 - Build: `testDebugUnitTest assembleDebug` correcto con AGP 8.13.2 y Gradle 8.13.
 - Sin `FATAL EXCEPTION` en la revisión posterior al arranque.
 - Evidencia: `docs/qa/2026-09-03-huawei-led-fit/`.
-- El AAB final permanece pendiente únicamente de crear/configurar una clave de carga dedicada y recuperable.
+- AAB final firmado con clave de carga dedicada y verificado mediante `jarsigner` y Bundletool 1.18.3: `releases/AudioBooster_v1.0.0_1.aab`.
+- SHA-256: `C2A8EC6B2A90CB5E685A015E8803B53E655EB7BC71BE7382CD807D2C0EBC45B4`.
 - `testDebugUnitTest assembleDebug`: correcta (40 tareas).

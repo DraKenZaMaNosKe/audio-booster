@@ -3,6 +3,17 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+val releaseStorePath = providers.environmentVariable("AUDIOBOOSTER_KEYSTORE_FILE").orNull
+val releaseStorePassword = providers.environmentVariable("AUDIOBOOSTER_KEYSTORE_PASSWORD").orNull
+val releaseKeyAlias = providers.environmentVariable("AUDIOBOOSTER_KEY_ALIAS").orNull
+val releaseKeyPassword = providers.environmentVariable("AUDIOBOOSTER_KEY_PASSWORD").orNull
+val hasReleaseSigning = listOf(
+    releaseStorePath,
+    releaseStorePassword,
+    releaseKeyAlias,
+    releaseKeyPassword
+).all { !it.isNullOrBlank() }
+
 android {
     namespace = "com.pixora.volumemax"
     compileSdk = 36
@@ -15,10 +26,24 @@ android {
         versionName = "1.0.0"
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("releaseUpload") {
+                storeFile = file(requireNotNull(releaseStorePath))
+                storePassword = requireNotNull(releaseStorePassword)
+                keyAlias = requireNotNull(releaseKeyAlias)
+                keyPassword = requireNotNull(releaseKeyPassword)
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("releaseUpload")
+            }
         }
         debug {
             isMinifyEnabled = false
